@@ -18,5 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/login', [App\Http\Controllers\LoginController::class, 'index'])->name('login');
+Route::get('/register', [App\Http\Controllers\RegiserController::class, 'index'])->name('register');
 Route::get('/about', [App\Http\Controllers\AboutController::class, 'index'])->name('about');
-Route::get('/process', [App\Http\Controllers\AboutController::class, 'index'])->name('process');
+Route::get('/process', [App\Http\Controllers\ProcessController::class, 'index'])->name('process');
