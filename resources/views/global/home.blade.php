@@ -21,7 +21,10 @@
                         <label for="exampleInputPassword1">Password</label>
                         <input type="password" class="form-control" id="exampleInputPassword1">
                     </div>
-                    <button type="submit" class="btn btn-outline-dark">Login</button>
+                    <div class="buttons d-flex flex-row justify-content-between align-items-center">
+                        <button type="submit" class="btn btn-outline-dark">Login</button>
+                        <a href="/register" class="">Create An Account</a>
+                    </div>
                 </form>
             </div>
         </div>

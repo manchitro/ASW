@@ -56,7 +56,7 @@
                             <a class="nav-link" href="{{ route('about') }}">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('process') }}">How it works</a>
+                            <a class="nav-link" href="{{ url('/about#process') }}">How it works</a>
                         </li>
                     </ul>
                 </div>
