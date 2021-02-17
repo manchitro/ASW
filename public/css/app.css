@@ -10155,23 +10155,41 @@ h3 {
 }
 
 .blur5 {
-  -webkit-backdrop-filter: blur(5px);
-          backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
 }
 
 .vw-30 {
   width: 30vw;
 }
 
+.navbar {
+  z-index: 100;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: #3490dc;
+}
+
 .main {
-  background: url("/images/asw-01.png");
-  background-position: left;
-  background-repeat: no-repeat;
-  background-size: cover;
   height: 85vh;
   align-content: center;
   align-items: center;
   justify-content: flex-start;
+}
+
+.main::before {
+  background: url("/images/asw3.png");
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: contain;
+  content: "";
+  position: absolute;
+  top: 10vh;
+  left: 0;
+  width: 100%;
+  height: 85vh;
+  z-index: -1;
 }
 
 .welcome-msg {
@@ -10208,7 +10226,15 @@ h3 {
 .login .btn {
   border-radius: 0;
   font-weight: bold;
-  border: 1px solid #000;
+}
+.login ::-moz-placeholder {
+  color: rgba(0, 0, 0, 0.342);
+}
+.login :-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.342);
+}
+.login ::placeholder {
+  color: rgba(0, 0, 0, 0.342);
 }
 
 .footer {
@@ -10220,6 +10246,29 @@ h3 {
   background-color: #f5f5f573;
 }
 
+@media only screen and (max-width: 1200px) {
+  .main {
+    height: 85vh;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .main::before {
+    background: url("/images/asw3.png");
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: "";
+    position: absolute;
+    top: 10vh;
+    left: 0;
+    width: 100%;
+    height: 85vh;
+    filter: blur(5px);
+    z-index: -1;
+  }
+}
 @media only screen and (min-width: 992px) {
   .steps {
     width: 50%;
@@ -10227,26 +10276,48 @@ h3 {
 }
 @media only screen and (max-width: 992px) {
   .main {
-    background: linear-gradient(to bottom, #f8fafcd1, #f8fafcd4), url("/images/asw2.png");
-    background-position: right;
-    background-repeat: no-repeat;
-    background-size: contain;
     height: 85vh;
     align-content: center;
     align-items: center;
     justify-content: flex-start;
   }
-}
-@media only screen and (max-width: 768px) {
-  .main {
-    background: linear-gradient(to bottom, #f8fafcd1, #f8fafcd4), url("/images/asw2.png");
+
+  .main::before {
+    background: url("/images/asw2.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+    content: "";
+    position: absolute;
+    top: 10vh;
+    left: 0;
+    width: 100%;
+    height: 85vh;
+    filter: blur(10px);
+    z-index: -1;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .main {
     height: 85vh;
     align-content: flex-start;
     align-items: flex-start;
     justify-content: flex-start;
+  }
+
+  .main::before {
+    background: url("/images/asw2.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: "";
+    position: absolute;
+    top: 10vh;
+    left: 0;
+    width: 100%;
+    height: 85vh;
+    filter: blur(10px);
+    z-index: -1;
   }
 
   .login {

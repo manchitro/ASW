@@ -3,7 +3,9 @@
 @section('content')
     <div class="container">
         <div class="main d-flex flex-row flex-wrap">
-            <div class="login login-main d-inline vw-30">
+            @component('components.loginform')
+            @endcomponent
+            {{-- <div class="login login-main d-inline vw-30">
                 <h2 class="mb-4">Login</h2>
                 <form method="post" action="">
                     <div class="form-group">
@@ -18,10 +20,10 @@
                     </div>
                     <div class="buttons d-flex flex-row justify-content-between align-items-center">
                         <button type="submit" class="btn btn-outline-dark">Login</button>
-                        <a href="/register" class="">Create An Account</a>
+                        <a href="/register" class="btn btn-primary">Create An Account</a>
                     </div>
                 </form>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection
