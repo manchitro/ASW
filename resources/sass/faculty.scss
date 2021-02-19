@@ -1,0 +1,23 @@
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Nunito");
+@import url("https://fonts.googleapis.com/css2?family=Francois+One&display=swap");
+
+// Variables
+@import "variables";
+// Bootstrap
+@import "~bootstrap/scss/bootstrap";
+
+body {
+    background: $beachgray;
+}
+
+.nightbg{
+    background-color: $nightgray;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: $blanco;
+}
+.version {
+    color: $blanco;
+}

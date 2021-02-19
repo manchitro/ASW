@@ -21,3 +21,9 @@ Route::post('/login', [App\Http\Controllers\HomeController::class, 'login_user']
 
 Route::get('/register', [App\Http\Controllers\HomeController::class, 'register'])->name('register');
 Route::post('/register', [App\Http\Controllers\HomeController::class, 'create_account'])->name('create_account');
+
+Route::group(['middleware' => ['session']], function(){
+    Route::group(['middleware' => ['auth_faculty']], function(){
+        Route::get('/faculty', [App\Http\Controllers\FacultyController::class, 'index'])->name('faculty_home');
+    });
+});

@@ -42,7 +42,8 @@ class HomeController extends Controller
                         $user->password = Hash::make($request->password);
                         $user->save();
                     }
-                echo 'logged in';
+                $request->session()->put('user', $user);
+                return redirect('/'.$user->usertype);
             }
             else{
                 $request->session()->flash('error', 'Incorrect password. Please try again!');

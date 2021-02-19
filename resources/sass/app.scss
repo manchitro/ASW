@@ -4,19 +4,8 @@
 
 // Variables
 @import "variables";
-$theme-colors: (
-    "bright-green": #900,
-);
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
-
-.bg {
-    background: white;
-    background-position: center center;
-    background-repeat: repeat;
-    background-size: cover;
-    background-attachment: fixed;
-}
 
 .trans50white {
     background-color: rgba(255, 255, 255, 0.5);
