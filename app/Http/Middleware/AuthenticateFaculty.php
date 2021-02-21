@@ -21,7 +21,7 @@ class AuthenticateFaculty
             return $next($request);
         }
         else {
-            $request->session()->flash('error', 'You do not have permission to access this page.');
+            $request->session()->flash('error', 'You do not have permission to access this page. Please login first.');
             return redirect('login');
         }
     }

@@ -55,7 +55,11 @@ class HomeController extends Controller
             return redirect('/login');
         }
     }
-
+    public function logout(Request $request){
+        $request->session()->flush();
+        $request->session()->flash('message','You\'ve been logged out');
+        return redirect('/');
+    }
     public function register()
     {
         return view('global.register');

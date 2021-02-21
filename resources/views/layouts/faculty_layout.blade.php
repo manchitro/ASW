@@ -41,8 +41,15 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto nav-profile h5">
-                        <a class="nav-link" href="{{ url('/') }}">Welcome, {{ $user->firstname . ' ' . $user->lastname }}</a>
-                        <img class="my-auto" src="/images/user.png" width="30" height="30" alt="">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle d-flex flex-row justify-content-center align-items-center px-2 py-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link" href="{{ url('/') }}">{{ $user->firstname . ' ' . $user->lastname }}</a>
+                                <img class="my-auto mr-2" src="/images/user.png" width="30" height="30" alt="">
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="btn text-danger font-weight-bold dropdown-item" type="button" href="/logout">Logout</a>
+                            </div>
+                        </div>
                     </ul>
                 </div>
             </div>

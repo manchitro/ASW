@@ -18,6 +18,7 @@ Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->nam
 
 Route::get('/login', [App\Http\Controllers\HomeController::class, 'login'])->name('login');
 Route::post('/login', [App\Http\Controllers\HomeController::class, 'login_user'])->name('login_user');
+Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
 
 Route::get('/register', [App\Http\Controllers\HomeController::class, 'register'])->name('register');
 Route::post('/register', [App\Http\Controllers\HomeController::class, 'create_account'])->name('create_account');
