@@ -20,15 +20,11 @@
     <!-- Styles -->
     <link rel="icon" href="{{ URL::asset('images/favicon.png') }}" type="image/x-icon" />
     <link href="{{ asset('css/faculty.css') }}" rel="stylesheet">
-
-    <!-- Font Awesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <div id="app" class="vh-100">
-        <nav class="navbar navbar-expand-sm nightbg navbar-dark blur5 shadow">
+        {{-- <nav class="navbar navbar-expand-sm nightbg navbar-dark blur5 shadow-lg" id="main-nav">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -58,44 +54,52 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> --}}
         <main class="py-0 d-flex flex-row h-100">
-            <nav id="sidebar" class="shadow">
-                <div class="sidebar-header shadow">
+            <nav id="sidebar" class="shadow-lg">
+                <div class="sidebar-header shadow-lg">
                     <h3>ASW Faculty Portal</h3>
                     <strong>FP</strong>
                 </div>
                 <ul class="list-unstyled components">
-                    <li class="{{ $currpage == 'sections' ? 'active' : '' }}">
+                    <li class="{{ $currpage == 'Sections' ? 'active' : '' }}">
                         <a href="/faculty">
                             <i class="fas fa-user-friends"></i>
                             Sections
                         </a>
                     </li>
-                    <li class="{{ $currpage == 'search' ? 'active' : '' }}">
+                    <li class="{{ $currpage == 'Search' ? 'active' : '' }}">
                         <a href="/faculty/search">
                             <i class="fas fa-search"></i>
                             Search
                         </a>
                     </li>
-                    <li class="{{ $currpage == 'profile' ? 'active' : '' }}">
+                    <li class="{{ $currpage == 'Profile' ? 'active' : '' }}">
                         <a href="/faculty/profile">
                             <i class="fas fa-user-circle"></i>
                             Profile
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="text-danger">
+                        <a href="/logout" class="text-danger">
                             <i class="fas fa-sign-out-alt"></i>
                             Logout
                         </a>
                     </li>
                 </ul>
             </nav>
-            <div>
-                <button type="button" id="sidebarCollapse" class="btn btn-info">
-                    <i class="fas fa-align-left"></i>
-                </button>
+            <div class="container-fluid px-0">
+                <nav class="navbar navbar-expand-lg nightbg d-flex justify-content-start align-items-center shadow-lg">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info mr-3">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                    <h1 class="px-3 border-left">{{ $currpage }}</h1>
+                    <div class="ml-auto" id="nav-name">
+                        <div class="dropdown d-flex flex-row justify-content-center align-items-center">
+                            <a class="h5 m-0" href="{{ url('/faculty/profile') }}">{{ 'Welcome, ' . $user->firstname . ' ' . $user->lastname }}</a>
+                        </div>
+                    </div>
+                </nav>
                 @yield('content')
             </div>
         </main>

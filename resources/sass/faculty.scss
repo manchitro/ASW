@@ -7,13 +7,31 @@
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
 
+$fa-font-path: "../webfonts";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+
 body {
     background: $nightgray;
     color: $blanco;
 }
 
-.nightbg{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+}
+
+.nightbg {
     background-color: $nightgray;
+}
+#main-nav {
+    z-index: 999;
 }
 
 .navbar-dark .navbar-nav .nav-link {
@@ -113,7 +131,7 @@ a:focus {
 }
 
 #sidebar ul li a:hover {
-    color: #7386D5;
+    color: #7386d5;
     background: #fff;
 }
 
@@ -121,7 +139,7 @@ a:focus {
     margin-right: 10px;
 }
 
-#sidebar ul li.active>a,
+#sidebar ul li.active > a,
 a[aria-expanded="true"] {
     color: #fff;
     background: $seablue;
@@ -159,12 +177,12 @@ ul.CTAs a {
 
 a.download {
     background: #fff;
-    color: #7386D5;
+    color: #7386d5;
 }
 
 a.article,
 a.article:hover {
-    background: $seablue!important;
+    background: $seablue !important;
     color: #fff !important;
 }
 
@@ -184,6 +202,9 @@ a.article:hover {
 ----------------------------------------------------- */
 
 @media (max-width: 768px) {
+    #nav-name {
+        display: none !important;
+    }
     #sidebar {
         min-width: 80px;
         max-width: 80px;
