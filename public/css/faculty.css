@@ -16137,6 +16137,28 @@ readers do not read off random characters that represent icons */
 body {
   background: #2A2829;
   color: #FFFEFF;
+  scrollbar-width: thin;
+  /* "auto" or "thin" */
+  scrollbar-color: #6d7fcc black;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  /* width of the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: black;
+  /* color of the tracking area */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #6d7fcc;
+  /* color of the scroll thumb */
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
+  border: 3px solid #6d7fcc;
+  /* creates padding around scroll thumb */
 }
 
 h1,
@@ -16170,6 +16192,93 @@ a:focus {
   color: inherit;
   text-decoration: none;
   transition: all 0.3s;
+}
+
+.main-content {
+  overflow-y: auto;
+  max-height: 90%;
+  justify-content: start;
+}
+
+.border-seablue {
+  border-width: 2px;
+  border-color: #6d7fcc;
+}
+
+.btn-seablue {
+  color: #FFFEFF;
+  background-color: #6d7fcc;
+  border-color: #6d7fcc;
+}
+
+.btn-outline-seablue {
+  color: #FFFEFF;
+  border-color: #6d7fcc;
+}
+
+.btn-outline-seablue:hover,
+.btn-seablue:hover {
+  background-color: #FFFEFF;
+}
+
+.color-seablue {
+  color: #6d7fcc;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.soft-shadow {
+  border-radius: 0;
+  background: #2a2829;
+  box-shadow: 10px 10px 22px #242223, -10px -10px 22px #302e2f;
+}
+
+.text-shadow {
+  text-shadow: 5px 5px 8px black;
+}
+
+.float {
+  position: fixed;
+  min-width: 60px;
+  height: 40px;
+  bottom: 20px;
+  right: 40px;
+  background-color: #6d7fcc;
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.float:hover {
+  background-color: #FFFEFF;
+}
+
+.my-float {
+  margin-top: 22px;
+}
+
+.section-form {
+  padding: 0 50px;
+}
+.section-form .form-control {
+  border: 0;
+  background-color: #202020;
+  color: #FFFEFF;
+}
+.section-form .form-control:focus {
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(255, 255, 255, 0.5);
+}
+.section-form ::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.342);
+}
+.section-form :-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.342);
+}
+.section-form ::placeholder {
+  color: rgba(255, 255, 255, 0.342);
 }
 
 /* ---------------------------------------------------
@@ -16321,6 +16430,23 @@ a.article:hover {
 ----------------------------------------------------- */
 @media (max-width: 768px) {
   #nav-name {
+    display: none !important;
+  }
+
+  .main-content {
+    justify-content: flex-start !important;
+  }
+
+  .section-form {
+    padding: 0 !important;
+  }
+
+  .float {
+    height: 60px;
+    bottom: 30px;
+    right: 20px;
+  }
+  .float p {
     display: none !important;
   }
 

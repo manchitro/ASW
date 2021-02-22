@@ -25,7 +25,10 @@ Route::post('/register', [App\Http\Controllers\HomeController::class, 'create_ac
 
 Route::group(['middleware' => ['session']], function(){
     Route::group(['middleware' => ['auth_faculty']], function(){
-        Route::get('/faculty', [App\Http\Controllers\FacultyController::class, 'index'])->name('faculty_home');
+        Route::get('/faculty', function(){ return redirect('/faculty/section'); });
+        Route::get('/faculty/section', [App\Http\Controllers\FacultyController::class, 'index'])->name('faculty_home');
+        Route::get('/faculty/section/create', [App\Http\Controllers\FacultyController::class, 'createsection'])->name('faculty_createsection');
+
         Route::get('/faculty/search', [App\Http\Controllers\FacultyController::class, 'search'])->name('faculty_seach');
         Route::get('/faculty/profile', [App\Http\Controllers\FacultyController::class, 'profile'])->name('faculty_profile');
     });

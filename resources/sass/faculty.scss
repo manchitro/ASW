@@ -1,4 +1,5 @@
 // Fonts
+//
 @import url("https://fonts.googleapis.com/css?family=Nunito");
 @import url("https://fonts.googleapis.com/css2?family=Francois+One&display=swap");
 
@@ -16,8 +17,22 @@ $fa-font-path: "../webfonts";
 body {
     background: $nightgray;
     color: $blanco;
+    scrollbar-width: thin; /* "auto" or "thin" */
+    scrollbar-color: $seablue black;
+}
+::-webkit-scrollbar {
+    width: 8px; /* width of the entire scrollbar */
 }
 
+::-webkit-scrollbar-track {
+    background: black; /* color of the tracking area */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: $seablue; /* color of the scroll thumb */
+    border-radius: 20px; /* roundness of the scroll thumb */
+    border: 3px solid $seablue; /* creates padding around scroll thumb */
+}
 h1,
 h2,
 h3,
@@ -48,7 +63,77 @@ a:focus {
     text-decoration: none;
     transition: all 0.3s;
 }
+.main-content {
+    overflow-y: auto;
+    max-height: 90%;
+    justify-content: start;
+}
+.border-seablue {
+    border-width: 2px;
+    border-color: $seablue;
+}
+.btn-seablue {
+    color: $blanco;
+    background-color: $seablue;
+    border-color: $seablue;
+}
+.btn-outline-seablue {
+    color: $blanco;
+    border-color: $seablue;
+}
+.btn-outline-seablue:hover,
+.btn-seablue:hover {
+    background-color: $blanco;
+}
+.color-seablue {
+    color: $seablue;
+}
+.no-wrap {
+    white-space: nowrap;
+}
+.soft-shadow {
+    border-radius: 0;
+    background: #2a2829;
+    box-shadow: 10px 10px 22px #242223, -10px -10px 22px #302e2f;
+}
+.text-shadow {
+    text-shadow: 5px 5px 8px black;
+}
+.float {
+    position: fixed;
+    min-width: 60px;
+    height: 40px;
+    bottom: 20px;
+    right: 40px;
+    background-color: $seablue;
+    color: #fff;
+    border-radius: 50px;
+    text-align: center;
+    transition: all 0.3s;
+}
+.float:hover {
+    background-color: $blanco;
+}
 
+.my-float {
+    margin-top: 22px;
+}
+
+.section-form {
+    padding: 0 50px;
+    .form-control {
+        border: 0;
+        background-color: #202020;
+        color: $blanco;
+    }
+    .form-control:focus {
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset,
+            0px 0px 8px rgba(255, 255, 255, 0.5);
+    }
+    ::placeholder {
+        color: rgba(255, 255, 255, 0.342);
+    }
+}
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
@@ -204,6 +289,20 @@ a.article:hover {
 @media (max-width: 768px) {
     #nav-name {
         display: none !important;
+    }
+    .main-content {
+        justify-content: flex-start !important;
+    }
+    .section-form {
+        padding: 0 !important;
+    }
+    .float {
+        height: 60px;
+        bottom: 30px;
+        right: 20px;
+        p {
+            display: none !important;
+        }
     }
     #sidebar {
         min-width: 80px;

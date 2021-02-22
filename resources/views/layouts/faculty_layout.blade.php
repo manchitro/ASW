@@ -90,13 +90,13 @@
             </nav>
             <div class="container-fluid px-0">
                 <nav class="navbar navbar-expand-lg nightbg d-flex justify-content-start align-items-center shadow-lg">
-                    <button type="button" id="sidebarCollapse" class="btn btn-info mr-3">
+                    <button type="button" id="sidebarCollapse" class="btn btn-seablue mr-3">
                         <i class="fas fa-align-left"></i>
                     </button>
-                    <h1 class="px-3 border-left">{{ $currpage }}</h1>
+                    <h1 class="px-3 border-left">{{ $pagetitle }}</h1>
                     <div class="ml-auto" id="nav-name">
                         <div class="dropdown d-flex flex-row justify-content-center align-items-center">
-                            <a class="h5 m-0" href="{{ url('/faculty/profile') }}">{{ 'Welcome, ' . $user->firstname . ' ' . $user->lastname }}</a>
+                            <a class="h5 m-0 text-shadow color-seablue" href="{{ url('/faculty/profile') }}">{{ 'Welcome, ' . $user->firstname . ' ' . $user->lastname }}</a>
                         </div>
                     </div>
                 </nav>
