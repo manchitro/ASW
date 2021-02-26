@@ -16196,7 +16196,7 @@ a:focus {
 
 .main-content {
   overflow-y: auto;
-  max-height: 90%;
+  max-height: 91%;
   justify-content: start;
 }
 
@@ -16435,6 +16435,7 @@ a.article:hover {
 
   .main-content {
     justify-content: flex-start !important;
+    padding: 0;
   }
 
   .section-form {
@@ -16448,6 +16449,10 @@ a.article:hover {
   }
   .float p {
     display: none !important;
+  }
+
+  .card {
+    margin: 20px auto !important;
   }
 
   #sidebar {
@@ -16504,5 +16509,12 @@ a.article:hover {
 
   #sidebarCollapse span {
     display: none;
+  }
+}
+@media (max-width: 768px) and (max-width: 576px) {
+  .float {
+    height: 50px;
+    min-width: 50px;
+    width: 50px;
   }
 }

@@ -28,6 +28,7 @@ Route::group(['middleware' => ['session']], function(){
         Route::get('/faculty', function(){ return redirect('/faculty/section'); });
         Route::get('/faculty/section', [App\Http\Controllers\FacultyController::class, 'index'])->name('faculty_home');
         Route::get('/faculty/section/create', [App\Http\Controllers\FacultyController::class, 'createsection'])->name('faculty_createsection');
+        Route::post('/faculty/section/create', [App\Http\Controllers\FacultyController::class, 'savesection'])->name('faculty_savesection');
 
         Route::get('/faculty/search', [App\Http\Controllers\FacultyController::class, 'search'])->name('faculty_seach');
         Route::get('/faculty/profile', [App\Http\Controllers\FacultyController::class, 'profile'])->name('faculty_profile');
