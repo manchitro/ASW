@@ -67,6 +67,32 @@ class FacultyController extends Controller
             'room2' => array('exclude_if:oneclass,true', 'min:3'),
         ]);
 
-        echo $request;
+        $section->save();
+
+        //section time 1
+        $sectiontime1 = new Sectiontime();
+        $sectiontime1->sectionid = $section->id;
+        $sectiontime1->classtype = $request->classtype1;
+        $sectiontime1->weekday = $request->weekday1;
+        $sectiontime1->starttime = $request->starttime1;
+        $sectiontime1->endtime = $request->endtime1;
+        $sectiontime1->room = $request->room1;
+
+        $sectiontime1->save();
+        //section time 2
+        if ( !(isset($request->oneclass) && $request->oneclass == 'true') ) {
+            $sectiontime2 = new Sectiontime();
+            $sectiontime2->sectionid = $section->id;
+            $sectiontime2->classtype = $request->classtype2;
+            $sectiontime2->weekday = $request->weekday2;
+            $sectiontime2->starttime = $request->starttime2;
+            $sectiontime2->endtime = $request->endtime2;
+            $sectiontime2->room = $request->room2;
+            
+            $sectiontime2->save();
+        }
+
+        $request->session()->flash('message',$section->sectionname.' has been created!');
+        return redirect('/faculty/section');
     }
 }
