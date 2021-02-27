@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Section;
 use App\Models\Sectiontime;
 use App\Http\Requests\SectionRequest;
+use App\Helpers\SectiontimeHelper;
 
 class FacultyController extends Controller
 {
-    //
     public function __construct(){
        $this->middleware('auth_faculty');
     }
@@ -21,6 +21,10 @@ class FacultyController extends Controller
 
         $userid = $request->session()->get('user')->id;
         $sections = Section::where('facultyid', $userid)->get();
+        foreach ($sections as $section){
+            $sectiontimes = Sectiontime::where('sectionid', $section->id)->get();
+            $section->sectiontimes = SectiontimeHelper::formatsectiontimes($sectiontimes);
+        }
         $user = $request->session()->get('user');
         return view('faculty.sections', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'sections' => $sections]);
     }

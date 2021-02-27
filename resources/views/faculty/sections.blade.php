@@ -3,10 +3,16 @@
 @section('content')
     <div class="container-fluid main-content py-4 d-flex flex-wrap ">
         @foreach ($sections as $section)
-            <div class="card nightbg soft-shadow mx-5 my-3" style="width: 18rem;">
-                <div class="card-body no-wrap">
+            <div class="card nightbg soft-shadow mx-5 my-3">
+                <div class="card-body">
                     <h5 class="card-title">{{ $section->sectionname }}</h5>
-                    <h6 class="card-text mb-2 font-italic text-nowrap">Sunday 8:00 - 10:00 [Theory] at 1115<br>Tuesday 8:00 - 11:00 [Lab] at D0203</h6>
+                    {{-- <h6 class="card-text">{{ $section->sectiontime }}</h6> --}}
+                    @foreach ($section->sectiontimes as $sectiontime)
+                        <h6 class="card-text font-italic text-nowrap">{{ $sectiontime->weekday . ' ' . $sectiontime->starttime . ' - ' . $sectiontime->endtime . ' at ' . $sectiontime->room }}</h6>
+                    @endforeach
+                    @if (count($section->sectiontimes) == 1)
+                        <h6 class="card-text font-italic text-nowrap"><br></h6>
+                    @endif
                     <div class="d-flex flex-row justify-content-between align-items-center mt-3">
                         <a href="#" class=""><button class="btn btn-outline-seablue">Students</button></a>
                         <a href="#" class=""><button class="btn btn-outline-seablue">Classes</button></a>
