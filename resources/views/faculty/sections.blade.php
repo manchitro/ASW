@@ -14,9 +14,9 @@
                         <h6 class="card-text font-italic text-nowrap"><br></h6>
                     @endif
                     <div class="d-flex flex-row justify-content-between align-items-center mt-3">
-                        <a href="#" class=""><button class="btn btn-outline-seablue">Students</button></a>
-                        <a href="#" class=""><button class="btn btn-outline-seablue">Classes</button></a>
-                        <a href="#" class=""><button class="btn btn-outline-seablue">Edit</button></a>
+                        <a href="/faculty/section/{{$section->eid}}/students/" class=""><button class="btn btn-outline-seablue">Students</button></a>
+                        <a href="/faculty/section/{{$section->eid}}/classes" class=""><button class="btn btn-outline-seablue">Classes</button></a>
+                        <a href="/faculty/section/{{$section->eid}}/edit" class=""><button class="btn btn-outline-seablue">Edit</button></a>
                     </div>
                 </div>
             </div>

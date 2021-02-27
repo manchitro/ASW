@@ -7,6 +7,7 @@ use App\Models\Section;
 use App\Models\Sectiontime;
 use App\Http\Requests\SectionRequest;
 use App\Helpers\SectiontimeHelper;
+use Hashids\Hashids;
 
 class FacultyController extends Controller
 {
@@ -16,12 +17,14 @@ class FacultyController extends Controller
 
     public function index(Request $request)
     {
+        $hashids = new Hashids($request->session()->getId(), 7);
         $currpage = 'Sections';
         $pagetitle = 'Sections';
 
         $userid = $request->session()->get('user')->id;
         $sections = Section::where('facultyid', $userid)->get();
         foreach ($sections as $section){
+            $section->eid = $hashids->encode($section->id);
             $sectiontimes = Sectiontime::where('sectionid', $section->id)->get();
             $section->sectiontimes = SectiontimeHelper::formatsectiontimes($sectiontimes);
         }
@@ -98,5 +101,10 @@ class FacultyController extends Controller
 
         $request->session()->flash('message',$section->sectionname.' has been created!');
         return redirect('/faculty/section');
+    }
+    public function sectionstudents(Request $request, $sectionid){
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectionid)[0];
+        echo $sectionid;
     }
 }
