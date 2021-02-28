@@ -29,7 +29,7 @@ class FacultyController extends Controller
             $section->sectiontimes = SectiontimeHelper::formatsectiontimes($sectiontimes);
         }
         $user = $request->session()->get('user');
-        return view('faculty.sections', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'sections' => $sections]);
+        return view('faculty.section.sections', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'sections' => $sections]);
     }
     public function search(Request $request)
     {
@@ -52,7 +52,7 @@ class FacultyController extends Controller
         $pagetitle = 'Create Section';
 
         $user = $request->session()->get('user');
-        return view('faculty.createsection', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user]);
+        return view('faculty.section.createsection', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user]);
     }
     public function savesection(Request $request){
         $section = new Section();
@@ -102,9 +102,18 @@ class FacultyController extends Controller
         $request->session()->flash('message',$section->sectionname.' has been created!');
         return redirect('/faculty/section');
     }
-    public function sectionstudents(Request $request, $sectionid){
+    public function sectionstudents(Request $request, $sectioneid){
         $hashids = new Hashids($request->session()->getId(), 7);
-        $sectionid = $hashids->decode($sectionid)[0];
-        echo $sectionid;
+        $sectionid = $hashids->decode($sectioneid)[0];
+
+        $section = Section::find($sectionid);
+        $section->eid = $sectioneid;
+        $currpage = 'Sections';
+        $pagetitle = $section->sectionname;
+
+        $user = $request->session()->get('user');
+
+        return view('faculty.section.students', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section]);
     }
+
 }

@@ -93,7 +93,7 @@
                     <button type="button" id="sidebarCollapse" class="btn btn-seablue mr-3">
                         <i class="fas fa-align-left"></i>
                     </button>
-                    <h1 class="px-3 border-left">{{ $pagetitle }}</h1>
+                    <h2 class="px-3 border-left">{{ $pagetitle }}</h2>
                     <div class="ml-auto text-success">
                         {{ session('message') }}
                     </div>
