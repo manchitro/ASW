@@ -52,7 +52,7 @@ class FacultyController extends Controller
         $pagetitle = 'Create Section';
 
         $user = $request->session()->get('user');
-        return view('faculty.section.createsection', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user]);
+        return view('faculty.section.create', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user]);
     }
     public function savesection(Request $request){
         $section = new Section();
@@ -109,11 +109,25 @@ class FacultyController extends Controller
         $section = Section::find($sectionid);
         $section->eid = $sectioneid;
         $currpage = 'Sections';
-        $pagetitle = $section->sectionname;
+        $pagetitle = $section->sectionname.' - Students';
 
         $user = $request->session()->get('user');
 
         return view('faculty.section.students', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section]);
     }
 
+    public function sectionedit(Request $request, $sectioneid){
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+
+        $section = Section::find($sectionid);
+        $section->eid = $sectioneid;
+        $sectiontimes = Sectiontime::where('sectionid', $sectionid)->get();
+        $currpage = 'Sections';
+        $pagetitle = $section->sectionname.' - Edit';
+
+        $user = $request->session()->get('user');
+
+        return view('faculty.section.edit', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section, 'sectiontimes' => $sectiontimes]);
+    }
 }
