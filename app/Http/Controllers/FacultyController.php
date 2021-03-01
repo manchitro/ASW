@@ -57,7 +57,6 @@ class FacultyController extends Controller
     public function savesection(Request $request){
         $section = new Section();
 
-        $section->sectionname = $request->sectionname;
         $section->facultyid = $request->session()->get('user')->id;
         
         $validated = $request->validate([
@@ -74,6 +73,7 @@ class FacultyController extends Controller
             'room2' => array('exclude_if:oneclass,true', 'min:3'),
         ]);
 
+        $section->sectionname = $request->sectionname;
         $section->save();
 
         //section time 1
@@ -129,5 +129,53 @@ class FacultyController extends Controller
         $user = $request->session()->get('user');
 
         return view('faculty.section.edit', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section, 'sectiontimes' => $sectiontimes]);
+    }
+    public function savechangessection(Request $request, $sectioneid){
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+
+        $section = Section::find($sectionid);
+        $sectiontimes = Sectiontime::where('sectionid', $sectionid)->get();
+
+        $section->facultyid = $request->session()->get('user')->id;
+        
+        $validated = $request->validate([
+            'sectionname' => array('required', 'min:3'),
+            'classtype1' => array('required', 'regex:/^(lab|theory)$/'),
+            'weekday1' => array('required', 'integer', 'min:0', 'max:6'),
+            'starttime1' => array('required', 'min:0', 'max:24'),
+            'endtime1' => array('required', 'min:0', 'max:24', 'gt:starttime1'),
+            'room1' => array('required', 'min:3',),
+            'classtype2' => array('exclude_if:oneclass,true', 'required', 'regex:/^(lab|theory)$/'),
+            'weekday2' => array('exclude_if:oneclass,true', 'integer', 'min:0', 'max:6', 'different:weekday1'),
+            'starttime2' => array('exclude_if:oneclass,true', 'min:0', 'max:24'),
+            'endtime2' => array('exclude_if:oneclass,true', 'min:0', 'max:24', 'gt:starttime2'),
+            'room2' => array('exclude_if:oneclass,true', 'min:3'),
+        ]);
+
+        $section->sectionname = $request->sectionname;
+        $section->save();
+
+        //section time 1
+        $sectiontimes[0]->classtype = $request->classtype1;
+        $sectiontimes[0]->weekday = $request->weekday1;
+        $sectiontimes[0]->starttime = $request->starttime1;
+        $sectiontimes[0]->endtime = $request->endtime1;
+        $sectiontimes[0]->room = $request->room1;
+
+        $sectiontimes[0]->save();
+        //section time 2
+        if ( !(isset($request->oneclass) && $request->oneclass == 'true') ) {
+            $sectiontimes[1]->classtype = $request->classtype2;
+            $sectiontimes[1]->weekday = $request->weekday2;
+            $sectiontimes[1]->starttime = $request->starttime2;
+            $sectiontimes[1]->endtime = $request->endtime2;
+            $sectiontimes[1]->room = $request->room2;
+            
+            $sectiontimes[1]->save();
+        }
+
+        $request->session()->flash('message',$section->sectionname.' has been successfully edited!');
+        return redirect('/faculty/section');
     }
 }

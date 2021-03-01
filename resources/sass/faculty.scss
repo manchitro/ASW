@@ -132,7 +132,8 @@ a:focus {
     // border: 1px solid white;
     color: $blanco;
     font-size: 1rem;
-    transition: all 0.3s ease;
+    transition: all 0.3s;
+    z-index: 100;
 }
 .floating-menu-collapsed {
     right: 0;
@@ -171,6 +172,7 @@ a:focus {
     border-radius: 20px 0 0 20px;
     display: flex;
     align-items: center;
+    z-index: 101;
 }
 .right-menu-collapsed {
     right: -200px;

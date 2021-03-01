@@ -8,7 +8,7 @@
                     <h5 class="card-title">{{ $section->sectionname }}</h5>
                     {{-- <h6 class="card-text">{{ $section->sectiontime }}</h6> --}}
                     @foreach ($section->sectiontimes as $sectiontime)
-                        <h6 class="card-text font-italic text-nowrap">{{ $sectiontime->weekday . ' ' . $sectiontime->starttime . ' - ' . $sectiontime->endtime . ' at ' . $sectiontime->room }}</h6>
+                        <h6 class="card-text font-italic text-nowrap">{{'['.$sectiontime->classtype.'] '. $sectiontime->weekday . ' ' . $sectiontime->starttime . ' - ' . $sectiontime->endtime . ' at ' . $sectiontime->room }}</h6>
                     @endforeach
                     @if (count($section->sectiontimes) == 1)
                         <h6 class="card-text font-italic text-nowrap"><br></h6>

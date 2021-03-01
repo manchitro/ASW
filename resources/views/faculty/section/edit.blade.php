@@ -7,7 +7,7 @@
         @endslot
     @endcomponent
     <div class="container-fluid main-content py-4 d-flex flex-wrap ">
-        <form action="/faculty/section/edit" method="post" class="section-form w-100">
+        <form action="" method="post" class="section-form w-100">
             @csrf
             <div class="border-left pl-3">
                 <div class="row">
