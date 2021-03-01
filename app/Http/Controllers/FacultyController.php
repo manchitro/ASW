@@ -178,4 +178,17 @@ class FacultyController extends Controller
         $request->session()->flash('message',$section->sectionname.' has been successfully edited!');
         return redirect('/faculty/section');
     }
+    public function sectionclasses(Request $request, $sectioneid){
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+
+        $section = Section::find($sectionid);
+        $section->eid = $sectioneid;
+        $currpage = 'Sections';
+        $pagetitle = $section->sectionname.' - Lectures';
+
+        $user = $request->session()->get('user');
+
+        return view('faculty.section.lectures', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section]);
+    }
 }
