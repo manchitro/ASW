@@ -135,12 +135,19 @@ return [
             'required' => 'Please enter a name for your section',
             'min' => 'The name of your section is too short',
         ],
+        'classtype' => [
+            'required' => 'Please select a class type',
+        ],
         'classtype1' => [
             'required' => 'Please select a class type',
         ],
         'classtype2' => [
             'exclude_if' => 'Please select a class type',
             'required' => 'Please select a class type',
+        ],
+        'endtime' => [
+            'required' => 'Please select a class type',
+            'gt' => 'Please select an ending time that is later than the starting time',
         ],
         'endtime1' => [
             'required' => 'Please select a class type',
@@ -149,6 +156,9 @@ return [
         'endtime2' => [
             'required' => 'Please select a class type',
             'gt' => 'Please select an ending time that is later than the starting time',
+        ],
+        'room' => [
+            'required' => 'Please enter a room number',
         ],
         'room1' => [
             'required' => 'Please enter a room number',
@@ -159,6 +169,10 @@ return [
         ],
         'weekday2' =>[
             'different' => 'Classes cannot be on the same day',
+        ],
+        'date' =>[
+            'required' => 'Please enter the date of your lecture',
+            'after' => 'Cannot set date in the past',
         ],
     ],
 

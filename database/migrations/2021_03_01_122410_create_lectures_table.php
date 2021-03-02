@@ -20,11 +20,10 @@ class CreateLecturesTable extends Migration
             $table->text('classtype');
             $table->smallInteger('starttime');
             $table->smallInteger('endtime');
-            $table->smallInteger('weekday');
             $table->text('room');
-            $table->text('qrcode');
-            $table->datetime('qrstart');
-            $table->datetime('qrend');
+            $table->text('qrcode')->nullable();
+            $table->datetime('qrstart')->nullable();
+            $table->datetime('qrend')->nullable();
             $table->timestamps();
         });
     }
