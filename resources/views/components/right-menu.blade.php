@@ -23,13 +23,13 @@
                 </a>
             </li>
             <li>
-                <a href="/faculty/section/{{ $sectioneid }}/classes/add">
+                <a href="/faculty/section/{{ $sectioneid }}/lectures/add">
                     <i class="fas fa-calendar-plus"></i>
                     Add Lecture
                 </a>
             </li>
             <li>
-                <a href="/faculty/section/{{ $sectioneid }}/classes">
+                <a href="/faculty/section/{{ $sectioneid }}/lectures">
                     <i class="fas fa-calendar-alt"></i>
                     View Lectures
                 </a>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Section;
 use App\Models\Sectiontime;
+use App\Models\Lecture;
 use App\Http\Requests\SectionRequest;
 use App\Helpers\SectiontimeHelper;
 use Hashids\Hashids;
@@ -178,17 +179,41 @@ class FacultyController extends Controller
         $request->session()->flash('message',$section->sectionname.' has been successfully edited!');
         return redirect('/faculty/section');
     }
-    public function sectionclasses(Request $request, $sectioneid){
+    public function sectionlectures(Request $request, $sectioneid){
         $hashids = new Hashids($request->session()->getId(), 7);
         $sectionid = $hashids->decode($sectioneid)[0];
 
         $section = Section::find($sectionid);
         $section->eid = $sectioneid;
+        $lectures = Lecture::where('sectionid', $sectionid)->get();
         $currpage = 'Sections';
         $pagetitle = $section->sectionname.' - Lectures';
 
         $user = $request->session()->get('user');
 
-        return view('faculty.section.lectures', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section]);
+        return view('faculty.section.lecture.lectures', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section, 'lectures' => $lectures]);
+    }
+    public function addlecture(Request $request, $sectioneid){
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+
+        $section = Section::find($sectionid);
+        $section->eid = $sectioneid;
+        $sectiontimes = Sectiontime::where('sectionid', $sectionid)->get();
+        $cpsectiontimes = Sectiontime::where('sectionid', $sectionid)->get();
+        $formattedsectiontimes = SectiontimeHelper::formatsectiontimes($cpsectiontimes);
+        $currpage = 'Sections';
+        $pagetitle = $section->sectionname.' - Add Lecture';
+
+        $user = $request->session()->get('user');
+        // return $sectiontimes;
+        return view('faculty.section.lecture.add', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section, 'sectiontimes' => $sectiontimes, 'formattedsectiontimes' => $formattedsectiontimes]);
+    }
+    public function savelecture(Request $request, $sectioneid){
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+
+        $section = Section::find($sectionid);
+        
     }
 }

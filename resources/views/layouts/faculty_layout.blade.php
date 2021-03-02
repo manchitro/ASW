@@ -12,6 +12,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/datepicker.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -20,6 +21,7 @@
     <!-- Styles -->
     <link rel="icon" href="{{ URL::asset('images/favicon.png') }}" type="image/x-icon" />
     <link href="{{ asset('css/faculty.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/datepicker.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -99,7 +101,7 @@
                     </div>
                     <div class="ml-auto" id="nav-name">
                         <div class="dropdown d-flex flex-row justify-content-center align-items-center">
-                            <a class="h5 m-0 text-shadow color-seablue" href="{{ url('/faculty/profile') }}">{{ 'Welcome, ' . $user->firstname . ' ' . $user->lastname }}</a>
+                            <a class="h5 m-0 text-shadow text-info" href="{{ url('/faculty/profile') }}">{{ 'Welcome, ' . $user->firstname . ' ' . $user->lastname }}</a>
                         </div>
                     </div>
                 </nav>
