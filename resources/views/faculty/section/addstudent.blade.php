@@ -13,7 +13,7 @@
         <form action="" method="post" class="section-form w-100">
             <div class="border-left pl-3 mb-4">
                 <h3>Add a student</h3>
-                <p>If the student is not in our database, a new entry will be created. Otherwise we'll match existing student using Academic ID</p>
+                <p>If the student is not in our database, a new entry will be created. Otherwise we'll match existing student using Academic ID and add that student into your section</p>
             </div>
             @csrf
             <div class="border-left pl-3">

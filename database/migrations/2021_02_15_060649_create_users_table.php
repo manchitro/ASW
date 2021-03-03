@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->text('academicid');
             $table->text('firstname');
             $table->text('lastname');
-            $table->text('email');
+            $table->text('email')->nullable();
             $table->text('password')->nullable();
             $table->text('usertype');
             $table->datetime('email_verified_at')->nullable();

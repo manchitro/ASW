@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 use App\Models\Section;
 use App\Models\Sectiontime;
 use App\Models\Lecture;
+use App\Models\Sectionstudent;
 use App\Http\Requests\LectureRequest;
+use App\Http\Requests\StudentRequest;
 use App\Helpers\SectiontimeHelper;
 use App\Helpers\LectureHelper;
 use Hashids\Hashids;
@@ -195,7 +198,7 @@ class FacultyController extends Controller
         $section->eid = $sectioneid;
         $lectures = Lecture::where('sectionid', $sectionid)->get();
         $formattedlectures = LectureHelper::formatlectures($lectures);
-        foreach ($formattedlectures as $lecture){
+        foreach ($formattedlectures as $lecture) {
             $lecture->eid = $hashids->encode($lecture->id);
         }
         $currpage = 'Sections';
@@ -242,7 +245,8 @@ class FacultyController extends Controller
         $request->session()->flash('message', 'Lecture (' . $lecture->classtype . ') added on ' . $lecture->date);
         return redirect('/faculty/section/' . $sectioneid . '/lectures/');
     }
-    public function addstudent(Request $request, $sectioneid){
+    public function addstudent(Request $request, $sectioneid)
+    {
         $hashids = new Hashids($request->session()->getId(), 7);
         $sectionid = $hashids->decode($sectioneid)[0];
 
@@ -250,7 +254,42 @@ class FacultyController extends Controller
         $currpage = 'Sections';
         $pagetitle = $section->sectionname . ' - Add Student';
         $user = $request->session()->get('user');
-        return view('faculty.section.addstudent', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section, ]);
+        return view('faculty.section.addstudent', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section,]);
+    }
+    public function savestudent(StudentRequest $request, $sectioneid)
+    {
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+        $user = $request->session()->get('user');
+        $section = Section::find($sectionid);
+        if (User::where('academicid', $request->academicid)->exists()) {
+            if (Sectionstudent::where('sectionid', $sectionid)->where('studentid', User::where('academicid', $request->academicid)->first()->id)->doesntExist()) {
+                $sectionstudent = new Sectionstudent();
+                $sectionstudent->sectionid = $sectionid;
+                $student = User::where('academicid', $request->academicid)->first();
+                $sectionstudent->studentid = $student->id;
+                $sectionstudent->save();
 
+                $request->session()->flash('message', $student->firstname . ' ' . $student->lastname . ' (' . $student->academicid . ') has been added to ' . $section->sectionname);
+                return redirect('/faculty/section/' . $sectioneid . '/students');
+            } else {
+                $request->session()->flash('warning', 'This student already exists in ' . $section->sectionname);
+                return redirect('/faculty/section/' . $sectioneid . '/students/add');
+            }
+        } else {
+            $student = new User();
+            $student->academicid = $request->academicid;
+            $student->firstname = $request->firstname;
+            $student->lastname = $request->lastname;
+            $student->usertype = 'student';
+            $student->save();
+
+            $sectionstudent = new Sectionstudent();
+            $sectionstudent->sectionid = $sectionid;
+            $sectionstudent->studentid = $student->id;
+            $sectionstudent->save();
+
+            return $sectionstudent;
+        }
     }
 }

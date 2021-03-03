@@ -174,6 +174,16 @@ return [
             'required' => 'Please enter the date of your lecture',
             'after' => 'Cannot set date in the past',
         ],
+        'academicid' =>[
+            'required' => 'Please enter the Academic ID of the student you\'re trying to add',
+            'regex' => 'Please provide a valid format for the Academic ID. Example: 18-XXXXX-1',
+        ],
+        'firstname' =>[
+            'required' => 'Please enter the First Name of the student you\'re trying to add',
+        ],
+        'lastname' =>[
+            'required' => 'Please enter the Last Name of the student you\'re trying to add',
+        ],
     ],
 
     /*
