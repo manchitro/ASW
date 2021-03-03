@@ -5,5 +5,8 @@
         @slot('sectioneid')
             {{ $section->eid }}
         @endslot
+        @slot('sectionname')
+            {{ $section->sectionname }}
+        @endslot
     @endcomponent
 @endsection

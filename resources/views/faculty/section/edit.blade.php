@@ -5,6 +5,9 @@
         @slot('sectioneid')
             {{ $section->eid }}
         @endslot
+        @slot('sectionname')
+            {{ $section->sectionname }}
+        @endslot
     @endcomponent
     <div class="container-fluid main-content py-4 d-flex flex-wrap ">
         <form action="" method="post" class="section-form w-100">
@@ -297,7 +300,7 @@
                 </div>
             </div>
             <div class="border-left pl-3 mt-4">
-                <button class="btn btn-seablue" type="submit">Submit</button>
+                <button class="btn btn-seablue" type="submit">Save</button>
             </div>
         </form>
     </div>

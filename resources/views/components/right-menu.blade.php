@@ -1,9 +1,12 @@
-<button class="btn seabluebg floating-menu floating-menu-collapsed shadow" id="floating-menu" type="button">
-    <i class="fas fa-bars"></i>
+<button class="btn seabluebg floating-menu floating-menu-shown shadow" id="floating-menu" type="button">
+    <i class="fas fa-arrow-right" id="right-menu-button"></i>
 </button>
-<div id="right-menu" class="right-menu right-menu-collapsed shadow">
+<div id="right-menu" class="right-menu right-menu-shown shadow">
     <nav id="sidebar-menu" class="seabluebg round-border-right-menu py-2 pl-2">
         <ul class="list-unstyled components m-0">
+            {{-- <li>
+                <h5>{{$sectionname}}</h5>
+            </li> --}}
             <li>
                 <a href="/faculty/section/{{ $sectioneid }}/students/add">
                     <i class="fas fa-user-plus"></i>
@@ -43,9 +46,13 @@
             if ($("#floating-menu").hasClass("floating-menu-collapsed")) {
                 $("#floating-menu").removeClass("floating-menu-collapsed")
                 $("#floating-menu").addClass("floating-menu-shown")
+                $("#right-menu-button").removeClass("fa-bars")
+                $("#right-menu-button").addClass("fa-arrow-right")
             } else {
                 $("#floating-menu").removeClass("floating-menu-shown")
                 $("#floating-menu").addClass("floating-menu-collapsed")
+                $("#right-menu-button").addClass("fa-bars")
+                $("#right-menu-button").removeClass("fa-arrow-right")
             }
             if ($("#right-menu").hasClass("right-menu-collapsed")) {
                 $("#right-menu").removeClass("right-menu-collapsed")

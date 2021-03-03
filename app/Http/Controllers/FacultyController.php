@@ -242,4 +242,15 @@ class FacultyController extends Controller
         $request->session()->flash('message', 'Lecture (' . $lecture->classtype . ') added on ' . $lecture->date);
         return redirect('/faculty/section/' . $sectioneid . '/lectures/');
     }
+    public function addstudent(Request $request, $sectioneid){
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+
+        $section = Section::find($sectionid);
+        $currpage = 'Sections';
+        $pagetitle = $section->sectionname . ' - Add Student';
+        $user = $request->session()->get('user');
+        return view('faculty.section.addstudent', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section, ]);
+
+    }
 }
