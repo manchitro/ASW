@@ -40,5 +40,6 @@ Route::group(['middleware' => ['session']], function(){
 
         Route::get('/faculty/search', [App\Http\Controllers\FacultyController::class, 'search'])->name('faculty_seach');
         Route::get('/faculty/profile', [App\Http\Controllers\FacultyController::class, 'profile'])->name('faculty_profile');
+        Route::get('/faculty/async/togglerightmenustate', [App\Http\Controllers\FacultyController::class, 'togglerightmenustate'])->name('togglerightmenustate');
     });
 });

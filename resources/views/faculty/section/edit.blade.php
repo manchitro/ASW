@@ -5,8 +5,8 @@
         @slot('sectioneid')
             {{ $section->eid }}
         @endslot
-        @slot('sectionname')
-            {{ $section->sectionname }}
+        @slot('rightmenustate')
+            {{ $user->rightmenustate }}
         @endslot
     @endcomponent
     <div class="container-fluid main-content py-4 d-flex flex-wrap ">

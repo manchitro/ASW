@@ -122,7 +122,11 @@ class FacultyController extends Controller
 
         $user = $request->session()->get('user');
 
-        return view('faculty.section.students', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section]);
+        $students = User::whereIn('id', function ($query) use ($sectionid) {
+            $query->select('studentid')->from('sectionstudents')->where('sectionid', $sectionid);
+        })->get();
+
+        return view('faculty.section.students', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section, 'students' => $students]);
     }
 
     public function sectionedit(Request $request, $sectioneid)
@@ -291,5 +295,17 @@ class FacultyController extends Controller
 
             return $sectionstudent;
         }
+    }
+
+
+
+    public function togglerightmenustate(Request $request)
+    {
+        if ($request->session()->get('user')->rightmenustate == 'shown') {
+            $request->session()->get('user')->rightmenustate = 'collapsed';
+        } else if ($request->session()->get('user')->rightmenustate == 'collapsed') {
+            $request->session()->get('user')->rightmenustate = 'shown';
+        }
+        return $request->session()->get('user')->rightmenustate;
     }
 }

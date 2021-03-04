@@ -1,7 +1,7 @@
-<button class="btn seabluebg floating-menu floating-menu-shown shadow" id="floating-menu" type="button">
-    <i class="fas fa-arrow-right" id="right-menu-button"></i>
+<button class="btn seabluebg floating-menu floating-menu-{{ $rightmenustate }} shadow" id="floating-menu" type="button" onclick="togglerightmenustate()">
+    <i class="fas {{ $rightmenustate == 'shown' ? 'fa-arrow-right' : 'fa-bars' }}" id="right-menu-button"></i>
 </button>
-<div id="right-menu" class="right-menu right-menu-shown shadow">
+<div id="right-menu" class="right-menu right-menu-{{ $rightmenustate }} shadow">
     <nav id="sidebar-menu" class="seabluebg round-border-right-menu py-2 pl-2">
         <ul class="list-unstyled components m-0">
             {{-- <li>
@@ -61,7 +61,14 @@
                 $("#right-menu").removeClass("right-menu-shown")
                 $("#right-menu").addClass("right-menu-collapsed")
             }
+
         })
     })
+
+    function togglerightmenustate() {
+        $.get("/faculty/async/togglerightmenustate", function(data) {
+            // alert(data)
+        });
+    }
 
 </script>

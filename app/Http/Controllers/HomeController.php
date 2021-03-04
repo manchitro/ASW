@@ -34,48 +34,51 @@ class HomeController extends Controller
     {
         return view('global.login');
     }
-    public function login_user(LoginRequest $request){
+    public function login_user(LoginRequest $request)
+    {
         $user = User::where('email', $request->uid)->first();
-        if($user){
+        if ($user) {
             if (Hash::check($request->password, $user->password)) {
-                    if (Hash::needsRehash($user->password)) {
-                        $user->password = Hash::make($request->password);
-                        $user->save();
-                    }
+                if (Hash::needsRehash($user->password)) {
+                    $user->password = Hash::make($request->password);
+                    $user->save();
+                }
+                $user->rightmenustate = 'shown';
                 $request->session()->put('user', $user);
-                return redirect('/'.$user->usertype);
-            }
-            else{
+                // return $request->session()->get('user');
+                return redirect('/' . $user->usertype);
+            } else {
                 $request->session()->flash('error', 'Incorrect password. Please try again!');
                 return redirect('/login');
             }
-        }
-        else{
+        } else {
             $request->session()->flash('error', 'The Email address or Academic ID you have entered does not match any account.');
             return redirect('/login');
         }
     }
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         $request->session()->flush();
-        $request->session()->flash('message','You\'ve been logged out');
+        $request->session()->flash('message', 'You\'ve been logged out');
         return redirect('/');
     }
     public function register()
     {
         return view('global.register');
     }
-    public function create_account(RegisterRequest $request){
+    public function create_account(RegisterRequest $request)
+    {
         $user = new User();
 
         $user->academicid = $request->academicid;
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
         $user->email = $request->email;
-        $user->password = Hash::make($request->password); 
+        $user->password = Hash::make($request->password);
         $user->usertype = 'faculty';
-        
+
         $user->save();
-        $request->session()->flash('message','Your account was created successfully. Please login with your email and password.');
+        $request->session()->flash('message', 'Your account was created successfully. Please login with your email and password.');
         return redirect('/login');
     }
 }
