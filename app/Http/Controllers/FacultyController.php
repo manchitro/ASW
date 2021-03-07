@@ -8,6 +8,7 @@ use App\Models\Section;
 use App\Models\Sectiontime;
 use App\Models\Lecture;
 use App\Models\Sectionstudent;
+use App\Models\Attendance;
 use App\Http\Requests\LectureRequest;
 use App\Http\Requests\StudentRequest;
 use App\Helpers\SectiontimeHelper;
@@ -126,7 +127,19 @@ class FacultyController extends Controller
             $query->select('studentid')->from('sectionstudents')->where('sectionid', $sectionid);
         })->get();
 
-        return view('faculty.section.students', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section, 'students' => $students]);
+        $lectures = Lecture::where('sectionid', $sectionid)->get();
+        $formattedlectures = LectureHelper::formatlectures($lectures);
+        $lectureids = array();
+        foreach ($lectures as $lecture) {
+            array_push($lectureids, $lecture->id);
+        }
+
+        $attendances = Attendance::whereIn('lectureid', $lectureids)->get();
+        foreach ($attendances as $attendance) {
+            $attendance->eid = $hashids->encode($attendance->id);
+        }
+
+        return view('faculty.section.students', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section, 'students' => $students, 'lectures' => $formattedlectures, 'attendances' => $attendances]);
     }
 
     public function sectionedit(Request $request, $sectioneid)
@@ -255,6 +268,7 @@ class FacultyController extends Controller
         $sectionid = $hashids->decode($sectioneid)[0];
 
         $section = Section::find($sectionid);
+        $section->eid = $sectioneid;
         $currpage = 'Sections';
         $pagetitle = $section->sectionname . ' - Add Student';
         $user = $request->session()->get('user');
@@ -273,6 +287,15 @@ class FacultyController extends Controller
                 $student = User::where('academicid', $request->academicid)->first();
                 $sectionstudent->studentid = $student->id;
                 $sectionstudent->save();
+
+                $lectures = Lecture::where('sectionid', $sectionid)->get();
+                foreach ($lectures as $lecture) {
+                    $attendance = new Attendance();
+                    $attendance->studentid = $student->id;
+                    $attendance->lectureid = $lecture->id;
+                    $attendance->entry = 0;
+                    $attendance->save();
+                }
 
                 $request->session()->flash('message', $student->firstname . ' ' . $student->lastname . ' (' . $student->academicid . ') has been added to ' . $section->sectionname);
                 return redirect('/faculty/section/' . $sectioneid . '/students');
@@ -293,11 +316,35 @@ class FacultyController extends Controller
             $sectionstudent->studentid = $student->id;
             $sectionstudent->save();
 
-            return $sectionstudent;
+            $lectures = Lecture::where('sectionid', $sectionid)->get();
+            foreach ($lectures as $lecture) {
+                $attendance = new Attendance();
+                $attendance->studentid = $student->id;
+                $attendance->lectureid = $lecture->id;
+                $attendance->entry = 0;
+                $attendance->save();
+            }
+            $request->session()->flash('message', $student->firstname . ' ' . $student->lastname . ' (' . $student->academicid . ') has been added to ' . $section->sectionname);
+            return redirect('/faculty/section/' . $sectioneid . '/students');
         }
     }
 
 
+    public function toggleattendance(Request $request, $eid, $entry)
+    {
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $attendanceid = $hashids->decode($eid);
+        $attendance = Attendance::find($attendanceid)->first();
+        $sectionid = Lecture::select('sectionid')->where('id', $attendance->lectureid)->get();
+        $section = Section::find($sectionid)->first();
+        if ($request->session()->get('user')->id == $section->facultyid) {
+            $attendance->entry = $entry;
+            $attendance->save();
+            return $attendance;
+        } else {
+            return abort(401);
+        }
+    }
 
     public function togglerightmenustate(Request $request)
     {

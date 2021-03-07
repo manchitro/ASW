@@ -23,12 +23,17 @@ Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->n
 Route::get('/register', [App\Http\Controllers\HomeController::class, 'register'])->name('register');
 Route::post('/register', [App\Http\Controllers\HomeController::class, 'create_account'])->name('create_account');
 
-Route::group(['middleware' => ['session']], function(){
-    Route::group(['middleware' => ['auth_faculty']], function(){
-        Route::get('/faculty', function(){ return redirect('/faculty/section'); });
+Route::group(['middleware' => ['session']], function () {
+    Route::group(['middleware' => ['auth_faculty']], function () {
+        Route::get('/faculty', function () {
+            return redirect('/faculty/section');
+        });
         Route::get('/faculty/section', [App\Http\Controllers\FacultyController::class, 'index'])->name('faculty_home');
         Route::get('/faculty/section/create', [App\Http\Controllers\FacultyController::class, 'createsection'])->name('faculty_createsection');
         Route::post('/faculty/section/create', [App\Http\Controllers\FacultyController::class, 'savesection'])->name('faculty_savesection');
+        Route::get('/faculty/section/{sectionid}/', function ($sectioneid) {
+            return redirect('/faculty/section/' . $sectioneid . '/students');
+        });
         Route::get('/faculty/section/{sectionid}/students', [App\Http\Controllers\FacultyController::class, 'sectionstudents'])->name('faculty_students');
         Route::get('/faculty/section/{sectionid}/students/add', [App\Http\Controllers\FacultyController::class, 'addstudent'])->name('faculty_addstudent');
         Route::post('/faculty/section/{sectionid}/students/add', [App\Http\Controllers\FacultyController::class, 'savestudent'])->name('faculty_savestudent');
@@ -41,5 +46,6 @@ Route::group(['middleware' => ['session']], function(){
         Route::get('/faculty/search', [App\Http\Controllers\FacultyController::class, 'search'])->name('faculty_seach');
         Route::get('/faculty/profile', [App\Http\Controllers\FacultyController::class, 'profile'])->name('faculty_profile');
         Route::get('/faculty/async/togglerightmenustate', [App\Http\Controllers\FacultyController::class, 'togglerightmenustate'])->name('togglerightmenustate');
+        Route::get('/faculty/async/toggleattendance/{eid}/{entry}', [App\Http\Controllers\FacultyController::class, 'toggleattendance'])->name('toggleattendance');
     });
 });

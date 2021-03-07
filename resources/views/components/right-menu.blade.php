@@ -8,6 +8,12 @@
                 <h5>{{$sectionname}}</h5>
             </li> --}}
             <li>
+                <a href="/faculty/section/{{ $sectioneid }}/students">
+                    <i class="fas fa-users"></i>
+                    View Students
+                </a>
+            </li>
+            <li>
                 <a href="/faculty/section/{{ $sectioneid }}/students/add">
                     <i class="fas fa-user-plus"></i>
                     Add Students
