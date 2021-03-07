@@ -23,7 +23,10 @@ Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->n
 Route::get('/register', [App\Http\Controllers\HomeController::class, 'register'])->name('register');
 Route::post('/register', [App\Http\Controllers\HomeController::class, 'create_account'])->name('create_account');
 
+Route::get('/teapot', [App\Http\Controllers\HomeController::class, 'teapot'])->name('teapot');
+
 Route::group(['middleware' => ['session']], function () {
+    Route::get('/user', [App\Http\Controllers\HomeController::class, 'user_redirect'])->name('user_redirect');
     Route::group(['middleware' => ['auth_faculty']], function () {
         Route::get('/faculty', function () {
             return redirect('/faculty/section');

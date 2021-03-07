@@ -10,8 +10,12 @@
                     <p>Submit your attendance by scanning the QR code your teacher shows in class using our mobile app.</p>
                 </div>
             </div>
-            @component('components.loginform')
-            @endcomponent
+            @if (!session()->has('user'))
+                @component('components.loginform')
+                @endcomponent
+            @else
+                <a href="/user" class="btn btn-lg btn-outline-success">Go to your portal</a>
+            @endif
         </div>
     </div>
 @endsection

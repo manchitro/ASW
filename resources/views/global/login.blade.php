@@ -3,8 +3,12 @@
 @section('content')
     <div class="container">
         <div class="main d-flex flex-row flex-wrap">
-            @component('components.loginform')
-            @endcomponent
+            @if (!session()->has('user'))
+                @component('components.loginform')
+                @endcomponent
+            @else
+                <a href="/user" class="btn btn-lg btn-outline-success">Go to your portal</a>
+            @endif
             {{-- <div class="login login-main d-inline vw-30">
                 <h2 class="mb-4">Login</h2>
                 <form method="post" action="">

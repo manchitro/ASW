@@ -30,6 +30,18 @@ class HomeController extends Controller
     {
         return view('global.about');
     }
+    public function user_redirect(Request $request)
+    {
+        if (($request->session()->get('user') !== null)) {
+            if ($request->session()->get('user')->usertype == 'faculty') {
+                return redirect('/faculty');
+            } elseif ($request->session()->get('user')->usertype == 'student') {
+                return redirect('/student');
+            }
+        } else {
+            return abort('401');
+        }
+    }
     public function login()
     {
         return view('global.login');
@@ -80,5 +92,9 @@ class HomeController extends Controller
         $user->save();
         $request->session()->flash('message', 'Your account was created successfully. Please login with your email and password.');
         return redirect('/login');
+    }
+    public function teapot()
+    {
+        return abort('418');
     }
 }

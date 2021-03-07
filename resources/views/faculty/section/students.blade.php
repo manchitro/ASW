@@ -43,6 +43,9 @@
             @endforeach
         </tbody>
     </table>
+    @if (count($students) == 0)
+        <div class="mx-3 text-warning h5">There are no students in this section as of now. To add students use the Add student button from the menu below or <a href="add"><u>click here</u></a></div>
+    @endif
     <script>
         function togglecheck(eid) {
             if ($('#' + eid).is(':checked')) {

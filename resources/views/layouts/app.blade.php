@@ -29,9 +29,7 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -46,12 +44,24 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/') }}">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
+                        @if (Session::has('user'))
+                            @if (session()->get('user')->usertype == 'faculty')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('faculty_home') }}">Your Portal</a>
+                                </li>
+                            @elseif (session()->get('user')->usertype == 'student')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('student_home') }}">Your Portal</a>
+                                </li>
+                            @endif
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('about') }}">About</a>
                         </li>

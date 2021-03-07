@@ -127,7 +127,7 @@ class FacultyController extends Controller
             $query->select('studentid')->from('sectionstudents')->where('sectionid', $sectionid);
         })->get();
 
-        $lectures = Lecture::where('sectionid', $sectionid)->get();
+        $lectures = Lecture::where('sectionid', $sectionid)->orderBy('date')->get();
         $formattedlectures = LectureHelper::formatlectures($lectures);
         $lectureids = array();
         foreach ($lectures as $lecture) {
@@ -213,7 +213,7 @@ class FacultyController extends Controller
 
         $section = Section::find($sectionid);
         $section->eid = $sectioneid;
-        $lectures = Lecture::where('sectionid', $sectionid)->get();
+        $lectures = Lecture::where('sectionid', $sectionid)->orderBy('date')->get();
         $formattedlectures = LectureHelper::formatlectures($lectures);
         foreach ($formattedlectures as $lecture) {
             $lecture->eid = $hashids->encode($lecture->id);
@@ -259,6 +259,16 @@ class FacultyController extends Controller
 
         // return $lecture;
         $lecture->save();
+
+        $studentids = Sectionstudent::select('studentid')->where('sectionid', $sectionid)->get();
+        foreach ($studentids as $student) {
+            $attendance = new Attendance();
+            $attendance->studentid = $student->studentid;
+            $attendance->lectureid = $lecture->id;
+            $attendance->entry = 0;
+            $attendance->save();
+        }
+        // return $studentids;
         $request->session()->flash('message', 'Lecture (' . $lecture->classtype . ') added on ' . $lecture->date);
         return redirect('/faculty/section/' . $sectioneid . '/lectures/');
     }

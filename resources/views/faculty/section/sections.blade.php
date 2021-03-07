@@ -6,7 +6,7 @@
             <div class="text-warning h5">You have no sections. Please create one using the Create Section button below or from <u><a href="/faculty/section/create">here.</a></u> </div>
         @endif
         @foreach ($sections as $section)
-            <div class="card nightbg soft-shadow mx-5 my-3">
+            <div class="card nightbg soft-shadow mx-3 my-3">
                 <div class="card-body">
                     <h5 class="card-title">{{ $section->sectionname }}</h5>
                     {{-- <h6 class="card-text">{{ $section->sectiontime }}</h6> --}}
