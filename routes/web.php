@@ -37,14 +37,18 @@ Route::group(['middleware' => ['session']], function () {
         Route::get('/faculty/section/{sectionid}/', function ($sectioneid) {
             return redirect('/faculty/section/' . $sectioneid . '/students');
         });
+        Route::get('/faculty/section/{sectionid}/edit', [App\Http\Controllers\FacultyController::class, 'sectionedit'])->name('faculty_editsection');
+        Route::post('/faculty/section/{sectionid}/edit', [App\Http\Controllers\FacultyController::class, 'savechangessection'])->name('faculty_savechangessection');
+
         Route::get('/faculty/section/{sectionid}/students', [App\Http\Controllers\FacultyController::class, 'sectionstudents'])->name('faculty_students');
         Route::get('/faculty/section/{sectionid}/students/add', [App\Http\Controllers\FacultyController::class, 'addstudent'])->name('faculty_addstudent');
         Route::post('/faculty/section/{sectionid}/students/add', [App\Http\Controllers\FacultyController::class, 'savestudent'])->name('faculty_savestudent');
+
         Route::get('/faculty/section/{sectionid}/lectures', [App\Http\Controllers\FacultyController::class, 'sectionlectures'])->name('faculty_lectures');
         Route::get('/faculty/section/{sectionid}/lectures/add', [App\Http\Controllers\FacultyController::class, 'addlecture'])->name('faculty_addlecture');
         Route::post('/faculty/section/{sectionid}/lectures/add', [App\Http\Controllers\FacultyController::class, 'savelecture'])->name('faculty_savelecture');
-        Route::get('/faculty/section/{sectionid}/edit', [App\Http\Controllers\FacultyController::class, 'sectionedit'])->name('faculty_editsection');
-        Route::post('/faculty/section/{sectionid}/edit', [App\Http\Controllers\FacultyController::class, 'savechangessection'])->name('faculty_savechangessection');
+        Route::get('/faculty/section/{sectionid}/lectures/{lectureid}/edit', [App\Http\Controllers\FacultyController::class, 'editlecture'])->name('faculty_editlecture');
+        Route::post('/faculty/section/{sectionid}/lectures/{lectureid}/edit', [App\Http\Controllers\FacultyController::class, 'savechangeslecture'])->name('faculty_savechangeslecture');
 
         Route::get('/faculty/search', [App\Http\Controllers\FacultyController::class, 'search'])->name('faculty_seach');
         Route::get('/faculty/profile', [App\Http\Controllers\FacultyController::class, 'profile'])->name('faculty_profile');

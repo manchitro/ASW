@@ -272,6 +272,48 @@ class FacultyController extends Controller
         $request->session()->flash('message', 'Lecture (' . $lecture->classtype . ') added on ' . $lecture->date);
         return redirect('/faculty/section/' . $sectioneid . '/lectures/');
     }
+    public function editlecture(Request $request, $sectioneid, $lectureeid)
+    {
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+        $lectureid = $hashids->decode($lectureeid)[0];
+
+        $section = Section::find($sectionid);
+        $lecture = Lecture::find($lectureid);
+
+        $lecture->date = date('M d, Y', strtotime($lecture->date));
+        $sectiontimes = Sectiontime::where('sectionid', $sectionid)->get();
+        $cpsectiontimes = Sectiontime::where('sectionid', $sectionid)->get();
+        $formattedsectiontimes = SectiontimeHelper::formatsectiontimes($cpsectiontimes);
+
+        $currpage = 'Sections';
+        $pagetitle = $section->sectionname . ' - Edit Lecture';
+        $user = $request->session()->get('user');
+        return view('faculty.section.lecture.edit', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section, 'lecture' => $lecture, 'formattedsectiontimes' => $formattedsectiontimes, 'sectiontimes' => $sectiontimes]);
+    }
+    public function savechangeslecture(LectureRequest $request, $sectioneid, $lectureeid)
+    {
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+        $lectureid = $hashids->decode($lectureeid)[0];
+
+        $section = Section::find($sectionid);
+        $lecture = Lecture::find($lectureid);
+
+        if (strtotime($lecture->date) < strtotime('now')) {
+            $request->session()->flash('warning', 'Cannot edit classes that have already happened');
+            return redirect()->back();
+        }
+
+        $lecture->date = date('Y-m-d', strtotime($request->date));
+        $lecture->classtype = $request->classtype;
+        $lecture->starttime = $request->starttime;
+        $lecture->endtime = $request->endtime;
+        $lecture->room = $request->room;
+        $lecture->save();
+        $request->session()->flash('message', 'Lecture updated.');
+        return redirect('/faculty/section/' . $sectioneid . '/lectures/');
+    }
     public function addstudent(Request $request, $sectioneid)
     {
         $hashids = new Hashids($request->session()->getId(), 7);

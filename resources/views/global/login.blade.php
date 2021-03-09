@@ -7,6 +7,7 @@
                 @component('components.loginform')
                 @endcomponent
             @else
+                <div class="h2 w-100">You are already logged in!</div>
                 <a href="/user" class="btn btn-lg btn-outline-success">Go to your portal</a>
             @endif
             {{-- <div class="login login-main d-inline vw-30">
