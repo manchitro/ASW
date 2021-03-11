@@ -111,37 +111,6 @@ class FacultyController extends Controller
         $request->session()->flash('message', $section->sectionname . ' has been created!');
         return redirect('/faculty/section');
     }
-    public function sectionstudents(Request $request, $sectioneid)
-    {
-        $hashids = new Hashids($request->session()->getId(), 7);
-        $sectionid = $hashids->decode($sectioneid)[0];
-
-        $section = Section::find($sectionid);
-        $section->eid = $sectioneid;
-        $currpage = 'Sections';
-        $pagetitle = $section->sectionname . ' - Students';
-
-        $user = $request->session()->get('user');
-
-        $students = User::whereIn('id', function ($query) use ($sectionid) {
-            $query->select('studentid')->from('sectionstudents')->where('sectionid', $sectionid);
-        })->get();
-
-        $lectures = Lecture::where('sectionid', $sectionid)->orderBy('date')->get();
-        $formattedlectures = LectureHelper::formatlectures($lectures);
-        $lectureids = array();
-        foreach ($lectures as $lecture) {
-            array_push($lectureids, $lecture->id);
-        }
-
-        $attendances = Attendance::whereIn('lectureid', $lectureids)->get();
-        foreach ($attendances as $attendance) {
-            $attendance->eid = $hashids->encode($attendance->id);
-        }
-
-        return view('faculty.section.students', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section, 'students' => $students, 'lectures' => $formattedlectures, 'attendances' => $attendances]);
-    }
-
     public function sectionedit(Request $request, $sectioneid)
     {
         $hashids = new Hashids($request->session()->getId(), 7);
@@ -206,6 +175,50 @@ class FacultyController extends Controller
         $request->session()->flash('message', $section->sectionname . ' has been successfully edited!');
         return redirect('/faculty/section');
     }
+    public function deletesection(Request $request, $sectioneid)
+    {
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+
+        $section = Section::find($sectionid);
+        Sectionstudent::where('sectionid', $section->id)->delete();
+        Sectiontime::where('sectionid', $section->id)->delete();
+        Lecture::where('sectionid', $section->id)->delete();
+        $section->delete();
+        $request->session()->flash('message', $section->sectionname . ' has been deleted!');
+        return redirect('/faculty/section');
+    }
+    public function sectionstudents(Request $request, $sectioneid)
+    {
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+
+        $section = Section::find($sectionid);
+        $section->eid = $sectioneid;
+        $currpage = 'Sections';
+        $pagetitle = $section->sectionname . ' - Students';
+
+        $user = $request->session()->get('user');
+
+        $students = User::whereIn('id', function ($query) use ($sectionid) {
+            $query->select('studentid')->from('sectionstudents')->where('sectionid', $sectionid);
+        })->get();
+
+        $lectures = Lecture::where('sectionid', $sectionid)->orderBy('date')->get();
+        $formattedlectures = LectureHelper::formatlectures($lectures);
+        $lectureids = array();
+        foreach ($lectures as $lecture) {
+            array_push($lectureids, $lecture->id);
+        }
+
+        $attendances = Attendance::whereIn('lectureid', $lectureids)->get();
+        foreach ($attendances as $attendance) {
+            $attendance->eid = $hashids->encode($attendance->id);
+        }
+
+        return view('faculty.section.students', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section, 'students' => $students, 'lectures' => $formattedlectures, 'attendances' => $attendances]);
+    }
+
     public function sectionlectures(Request $request, $sectioneid)
     {
         $hashids = new Hashids($request->session()->getId(), 7);
@@ -281,6 +294,11 @@ class FacultyController extends Controller
         $section = Section::find($sectionid);
         $lecture = Lecture::find($lectureid);
 
+        if (!($lecture->sectionid == $section->id && $section->facultyid == $request->session()->get('user')->id)) {
+            $request->session()->flash('warning', 'You don\'t have permission to edit this lecture');
+            return redirect('/faculty/section');
+        }
+
         $lecture->date = date('M d, Y', strtotime($lecture->date));
         $sectiontimes = Sectiontime::where('sectionid', $sectionid)->get();
         $cpsectiontimes = Sectiontime::where('sectionid', $sectionid)->get();
@@ -305,6 +323,11 @@ class FacultyController extends Controller
             return redirect()->back();
         }
 
+        if (!($lecture->sectionid == $section->id && $section->facultyid == $request->session()->get('user')->id)) {
+            $request->session()->flash('warning', 'You don\'t have permission to edit this lecture');
+            return redirect()->back();
+        }
+
         $lecture->date = date('Y-m-d', strtotime($request->date));
         $lecture->classtype = $request->classtype;
         $lecture->starttime = $request->starttime;
@@ -312,6 +335,24 @@ class FacultyController extends Controller
         $lecture->room = $request->room;
         $lecture->save();
         $request->session()->flash('message', 'Lecture updated.');
+        return redirect('/faculty/section/' . $sectioneid . '/lectures/');
+    }
+    public function deletelecture(Request $request, $sectioneid, $lectureeid)
+    {
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+        $lectureid = $hashids->decode($lectureeid)[0];
+
+        $section = Section::find($sectionid);
+        $lecture = Lecture::find($lectureid);
+
+        if (!($lecture->sectionid == $section->id && $section->facultyid == $request->session()->get('user')->id)) {
+            $request->session()->flash('warning', 'You don\'t have permission to delete this lecture');
+            return redirect()->back();
+        }
+
+        $lecture->delete();
+        $request->session()->flash('message', 'Lecture deleted.');
         return redirect('/faculty/section/' . $sectioneid . '/lectures/');
     }
     public function addstudent(Request $request, $sectioneid)

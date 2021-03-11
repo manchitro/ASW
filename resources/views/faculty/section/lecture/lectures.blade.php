@@ -23,7 +23,7 @@
                     <div class="d-flex flex-row justify-content-between align-items-center mt-3">
                         <a href="/faculty/section/{{ $section->eid }}/lectures/{{ $lecture->eid }}/attendances" class=""><button class="btn btn-outline-seablue">Attendances</button></a>
                         <a href="/faculty/section/{{ $section->eid }}/lectures/{{ $lecture->eid }}/edit" class=""><button class="btn btn-outline-seablue mx-4" {!! strtotime($lecture->date) < strtotime("today") ? ' disabled title="Can\'t edit past classes! You can delete this class and create another lecture."' : '' !!}>Edit</button></a>
-                        <a href="/faculty/section/{{ $section->eid }}/lectures/{{ $lecture->eid }}/delete" class=""><button class="btn btn-outline-danger">Delete</button></a>
+                        <a href="/faculty/section/{{ $section->eid }}/lectures/{{ $lecture->eid }}/delete" class="" onclick="return confirm('Are you sure you want to delete this lecture? All attendance data of this lecture will be permanently deleted!')"><button class="btn btn-outline-danger">Delete</button></a>
                     </div>
                 </div>
             </div>

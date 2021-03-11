@@ -290,7 +290,7 @@
                         <div class="col-8">
                             <div class="form-group">
                                 <label class="no-wrap no-wrap" for="room2">Room</label>
-                                <input id="room2" class="form-control" type="text" name="room2" placeholder="i.e. 1102/D0203" value="{{ isset($sectiontimes[1]) ? $sectiontimes[1]->room :''}}">
+                                <input id="room2" class="form-control" type="text" name="room2" placeholder="i.e. 1102/D0203" value="{{ isset($sectiontimes[1]) ? $sectiontimes[1]->room : '' }}">
                                 @error('room2')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -301,6 +301,7 @@
             </div>
             <div class="border-left pl-3 mt-4">
                 <button class="btn btn-seablue" type="submit">Save</button>
+                <a href="delete" class="btn btn-danger ml-2" onclick="return confirm('Are you sure you want to delete this section? All students, lectures and attendance data of this section will be permanently deleted!')">Delete</a>
             </div>
         </form>
     </div>
