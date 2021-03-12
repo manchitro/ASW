@@ -9,11 +9,11 @@
             {{ $user->rightmenustate }}
         @endslot
     @endcomponent
-    <table class="table table-dark">
-        <thead>
+    <table class="table table-dark table-striped table-hover table-sm">
+        <thead class="thead-dark">
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">ID</th>
+                <th scope="col" style="width: 5%">#</th>
+                <th scope="col" style="width: 10%">ID</th>
                 <th scope="col">Name</th>
                 @foreach ($lectures as $lecture)
                     <th scope="col">{{ substr($lecture->date, 0, -6) }}</th>

@@ -218,6 +218,47 @@ class FacultyController extends Controller
 
         return view('faculty.section.students', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section, 'students' => $students, 'lectures' => $formattedlectures, 'attendances' => $attendances]);
     }
+    public function removestudents(Request $request, $sectioneid)
+    {
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+
+        $section = Section::find($sectionid);
+        $section->eid = $sectioneid;
+        $currpage = 'Sections';
+        $pagetitle = $section->sectionname . ' - Remove Students';
+
+        $user = $request->session()->get('user');
+
+        $students = User::whereIn('id', function ($query) use ($sectionid) {
+            $query->select('studentid')->from('sectionstudents')->where('sectionid', $sectionid);
+        })->get();
+
+        foreach ($students as $student) {
+            $student->eid = $hashids->encode($student->id);
+        }
+
+        return view('faculty.section.removestudents', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section, 'students' => $students,]);
+    }
+    public function removestudentsfromsection(Request $request, $sectioneid)
+    {
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+        $section = Section::find($sectionid);
+        $decodedstudentids = [];
+        foreach ($request->student as $student) {
+            array_push($decodedstudentids, $hashids->decode($student)[0]);
+        }
+
+        if (!($section->facultyid == $request->session()->get('user')->id)) {
+            $request->session()->flash('warning', 'You don\'t have permission for this action');
+            return redirect()->back();
+        }
+        $sectionstudents = Sectionstudent::where('sectionid', $section->id)->whereIn('studentid', $decodedstudentids)->delete();
+
+        $request->session()->flash('message', 'Selected students were removed from this section.');
+        return redirect('/faculty/section/' . $sectioneid . '/students');
+    }
 
     public function sectionlectures(Request $request, $sectioneid)
     {

@@ -44,6 +44,8 @@ Route::group(['middleware' => ['session']], function () {
         Route::get('/faculty/section/{sectionid}/students', [App\Http\Controllers\FacultyController::class, 'sectionstudents'])->name('faculty_students');
         Route::get('/faculty/section/{sectionid}/students/add', [App\Http\Controllers\FacultyController::class, 'addstudent'])->name('faculty_addstudent');
         Route::post('/faculty/section/{sectionid}/students/add', [App\Http\Controllers\FacultyController::class, 'savestudent'])->name('faculty_savestudent');
+        Route::get('/faculty/section/{sectionid}/students/remove', [App\Http\Controllers\FacultyController::class, 'removestudents'])->name('faculty_removestudent');
+        Route::post('/faculty/section/{sectionid}/students/remove', [App\Http\Controllers\FacultyController::class, 'removestudentsfromsection'])->name('faculty_removestudentfromsection');
 
         Route::get('/faculty/section/{sectionid}/lectures', [App\Http\Controllers\FacultyController::class, 'sectionlectures'])->name('faculty_lectures');
         Route::get('/faculty/section/{sectionid}/lectures/add', [App\Http\Controllers\FacultyController::class, 'addlecture'])->name('faculty_addlecture');
