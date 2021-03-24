@@ -254,7 +254,7 @@ class FacultyController extends Controller
             $request->session()->flash('warning', 'You don\'t have permission for this action');
             return redirect()->back();
         }
-        $sectionstudents = Sectionstudent::where('sectionid', $section->id)->whereIn('studentid', $decodedstudentids)->delete();
+        Sectionstudent::where('sectionid', $section->id)->whereIn('studentid', $decodedstudentids)->delete();
 
         $request->session()->flash('message', 'Selected students were removed from this section.');
         return redirect('/faculty/section/' . $sectioneid . '/students');

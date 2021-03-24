@@ -14,9 +14,9 @@ class CreateSectionstudentsTable extends Migration
     public function up()
     {
         Schema::create('sectionstudents', function (Blueprint $table) {
-            $table->primary(['sectionid', 'studentid']);
-            $table->bigInteger('sectiontid');
+            $table->bigInteger('sectionid');
             $table->bigInteger('studentid');
+            $table->primary(['sectionid', 'studentid']);
             $table->timestamps();
         });
     }

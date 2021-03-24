@@ -19,7 +19,7 @@ class CreateSectiontimeTable extends Migration
             $table->smallInteger('starttime');
             $table->smallInteger('endtime');
             $table->smallInteger('weekday');
-            $table->text('room');
+            $table->string('room');
             $table->timestamps();
         });
     }

@@ -16,11 +16,11 @@ class CreateSectiontimesTable extends Migration
         Schema::create('sectiontimes', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('sectionid');
-            $table->text('classtype');
+            $table->string('classtype');
             $table->smallInteger('starttime');
             $table->smallInteger('endtime');
             $table->smallInteger('weekday');
-            $table->text('room');
+            $table->string('room');
             $table->timestamps();
         });
     }

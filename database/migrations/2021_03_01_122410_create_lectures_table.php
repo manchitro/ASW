@@ -17,11 +17,11 @@ class CreateLecturesTable extends Migration
             $table->id();
             $table->bigInteger('sectionid');
             $table->date('date');
-            $table->text('classtype');
+            $table->string('classtype');
             $table->smallInteger('starttime');
             $table->smallInteger('endtime');
-            $table->text('room');
-            $table->text('qrcode')->nullable();
+            $table->string('room');
+            $table->string('qrcode')->nullable();
             $table->datetime('qrstart')->nullable();
             $table->datetime('qrend')->nullable();
             $table->timestamps();
