@@ -56,6 +56,9 @@ Route::group(['middleware' => ['session']], function () {
 
         Route::get('/faculty/search', [App\Http\Controllers\FacultyController::class, 'search'])->name('faculty_seach');
         Route::get('/faculty/profile', [App\Http\Controllers\FacultyController::class, 'profile'])->name('faculty_profile');
+        Route::post('/faculty/profile', [App\Http\Controllers\FacultyController::class, 'saveprofile'])->name('faculty_saveprofile');
+        Route::get('/faculty/profile/password', [App\Http\Controllers\FacultyController::class, 'profilepassword'])->name('faculty_profilepassword');
+        Route::post('/faculty/profile/password', [App\Http\Controllers\FacultyController::class, 'changepassword'])->name('faculty_changepassword');
         Route::get('/faculty/async/togglerightmenustate', [App\Http\Controllers\FacultyController::class, 'togglerightmenustate'])->name('togglerightmenustate');
         Route::get('/faculty/async/toggleattendance/{eid}/{entry}', [App\Http\Controllers\FacultyController::class, 'toggleattendance'])->name('toggleattendance');
     });

@@ -77,6 +77,7 @@
             @yield('content')
         </main>
     </div>
+    @include('popper::assets')
 </body>
 
 </html>

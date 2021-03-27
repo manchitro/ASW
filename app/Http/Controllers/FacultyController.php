@@ -3,16 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\User;
 use App\Models\Section;
 use App\Models\Sectiontime;
 use App\Models\Lecture;
 use App\Models\Sectionstudent;
 use App\Models\Attendance;
+
 use App\Http\Requests\LectureRequest;
 use App\Http\Requests\StudentRequest;
+use App\Http\Requests\ProfileRequest;
+use App\Http\Requests\PasswordRequest;
+
 use App\Helpers\SectiontimeHelper;
 use App\Helpers\LectureHelper;
+
 use Hashids\Hashids;
 
 class FacultyController extends Controller
@@ -52,7 +59,42 @@ class FacultyController extends Controller
         $pagetitle = 'Profile';
 
         $user = $request->session()->get('user');
-        return view('faculty.profile', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user]);
+        return view('faculty.profile.profile', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user]);
+    }
+    public function saveprofile(ProfileRequest $request)
+    {
+        $faculty = User::find($request->session()->get('user')->id);
+        $faculty->firstname = $request->firstname;
+        $faculty->lastname = $request->lastname;
+        $faculty->save();
+        $faculty->rightmenustate = $request->session()->get('user')->rightmenustate;
+        $request->session()->put('user', $faculty);
+
+        $request->session()->flash('message', 'Your Profile was updated!');
+        return redirect('/faculty/profile');
+    }
+    public function profilepassword(Request $request)
+    {
+        $currpage = 'Profile';
+        $pagetitle = 'Change Password';
+
+        $user = $request->session()->get('user');
+        return view('faculty.profile.changepassword', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user]);
+    }
+    public function changepassword(PasswordRequest $request)
+    {
+        $user = User::find($request->session()->get('user')->id);
+        if (Hash::check($request->oldpassword, $user->password)) {
+            $newpassword = Hash::make($request->newpassword);
+            $user->password = $newpassword;
+            $user->save();
+
+            $request->session()->flash('message', 'Your password was updated!');
+            return redirect('/faculty/profile/password');
+        }
+
+        $request->session()->flash('errorpass', 'Your old password was incorrect. Please try again.');
+        return redirect('/faculty/profile/password');
     }
     public function createsection(Request $request)
     {

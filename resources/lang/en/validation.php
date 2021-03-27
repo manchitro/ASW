@@ -184,6 +184,17 @@ return [
         'lastname' =>[
             'required' => 'Please enter the Last Name of the student you\'re trying to add',
         ],
+        'oldpassword' =>[
+            'required' => 'Please enter your old password',
+        ],
+        'newpassword' =>[
+            'required' => 'Please create a new password',
+            'different' => 'Old and new passwords cannot be the same'
+        ],
+        'confirmnewpassword' =>[
+            'required' => 'Please re-enter your new password',
+            'same' => 'Passwords do not match'
+        ],
     ],
 
     /*

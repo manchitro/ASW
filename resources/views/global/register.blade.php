@@ -9,7 +9,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="academicId">Academic ID</label>
-                        <input id="academicId" class="form-control" type="text" name="academicid" placeholder="XXXX-XXXX-X" required value="{{ old('academicid') }}" data-toggle="tooltip" data-placement="right" title="Warning: You cannot change your Academic ID in the future" autocomplete="off">
+                        <input id="academicId" class="form-control" type="text" name="academicid" placeholder="XXXX-XXXX-X" required value="{{ old('academicid') }}" {{ Popper::trigger(true, true, true)->placement('right')->arrow()->warning('Warning: You cannot change your Academic ID in the future') }} autocomplete="off">
                         @error('academicid')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Academic Email</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" placeholder="Enter your academic email address" required value="{{ old('email') }}">
+                        <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" placeholder="Enter your academic email address" {{ Popper::trigger(true, true, true)->placement('right')->arrow()->warning('Warning: You cannot change your Academic Email in the future') }} required value="{{ old('email') }}">
                         @error('email')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror

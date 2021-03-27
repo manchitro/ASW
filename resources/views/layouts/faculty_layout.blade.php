@@ -102,6 +102,9 @@
                     <div class="ml-auto text-warning">
                         {{ session('warning') }}
                     </div>
+                    <div class="ml-auto text-danger">
+                        {{ session('error') }}
+                    </div>
                     <div class="ml-auto" id="nav-name">
                         <div class="dropdown d-flex flex-row justify-content-center align-items-center">
                             <a class="h5 m-0 text-shadow text-info" href="{{ url('/faculty/profile') }}">{{ 'Welcome, ' . $user->firstname . ' ' . $user->lastname }}</a>
@@ -112,6 +115,7 @@
             </div>
         </main>
     </div>
+    @include('popper::assets')
 </body>
 
 </html>

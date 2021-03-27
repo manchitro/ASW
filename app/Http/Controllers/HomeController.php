@@ -48,7 +48,7 @@ class HomeController extends Controller
     }
     public function login_user(LoginRequest $request)
     {
-        $user = User::where('email', $request->uid)->first();
+        $user = User::where('email', $request->uid)->orWhere('academicid', $request->uid)->first();
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 if (Hash::needsRehash($user->password)) {

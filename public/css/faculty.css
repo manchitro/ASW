@@ -16333,6 +16333,10 @@ a:focus {
   right: 0;
 }
 
+.form-control-plaintext {
+  color: #FFFEFF;
+}
+
 .section-form {
   padding: 0 50px;
 }
