@@ -167,33 +167,38 @@ return [
             'required_without' => 'Please enter a room number',
             'min' => 'Your room number is too small',
         ],
-        'weekday2' =>[
+        'weekday2' => [
             'different' => 'Classes cannot be on the same day',
         ],
-        'date' =>[
+        'date' => [
             'required' => 'Please enter the date of your lecture',
             'after' => 'Cannot set date in the past',
         ],
-        'academicid' =>[
+        'academicid' => [
             'required' => 'Please enter the Academic ID of the student you\'re trying to add',
             'regex' => 'Please provide a valid format for the Academic ID. Example: 18-XXXXX-1',
         ],
-        'firstname' =>[
+        'firstname' => [
             'required' => 'Please enter the First Name of the student you\'re trying to add',
         ],
-        'lastname' =>[
+        'lastname' => [
             'required' => 'Please enter the Last Name of the student you\'re trying to add',
         ],
-        'oldpassword' =>[
+        'oldpassword' => [
             'required' => 'Please enter your old password',
         ],
-        'newpassword' =>[
+        'newpassword' => [
             'required' => 'Please create a new password',
             'different' => 'Old and new passwords cannot be the same'
         ],
-        'confirmnewpassword' =>[
+        'confirmnewpassword' => [
             'required' => 'Please re-enter your new password',
             'same' => 'Passwords do not match'
+        ],
+        'sheet' => [
+            'required' => 'Please upload a file first',
+            // 'file' => 'Please upload an xlsx/xls file',
+            'mimes' => 'Sheet file extenstion must be xlsx/xls'
         ],
     ],
 

@@ -16333,6 +16333,10 @@ a:focus {
   right: 0;
 }
 
+.color-seablue {
+  color: #6d7fcc;
+}
+
 .form-control-plaintext {
   color: #FFFEFF;
 }

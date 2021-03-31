@@ -16,6 +16,7 @@ use App\Http\Requests\LectureRequest;
 use App\Http\Requests\StudentRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
+use App\Http\Requests\SheetRequest;
 
 use App\Helpers\SectiontimeHelper;
 use App\Helpers\LectureHelper;
@@ -449,6 +450,23 @@ class FacultyController extends Controller
         $pagetitle = $section->sectionname . ' - Add Student';
         $user = $request->session()->get('user');
         return view('faculty.section.addstudent', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section,]);
+    }
+
+    public function addstudentsheet(Request $request, $sectioneid)
+    {
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+
+        $section = Section::find($sectionid);
+        $section->eid = $sectioneid;
+        $currpage = 'Sections';
+        $pagetitle = $section->sectionname . ' - Import Excel';
+        $user = $request->session()->get('user');
+        return view('faculty.section.addstudentsheet', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section,]);
+    }
+    public function processsheet(SheetRequest $request){
+        $sheet = $request->sheet;
+        return $sheet;
     }
     public function savestudent(StudentRequest $request, $sectioneid)
     {

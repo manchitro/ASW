@@ -11,8 +11,14 @@
     @endcomponent
     <div class="container-fluid main-content py-4 d-flex flex-wrap ">
         <form action="" method="post" class="section-form w-100">
-            <div class="border-left pl-3 mb-4">
-                <h3>Add a student</h3>
+            <div class="border-left pl-3 mt-4 mb-4">
+                <h3>Import excel sheet</h3>
+                <p>You can download a excel sheet that contains the ID and name of the students from your portal. Import that sheet here to automatically add all students in your section</p>
+                <a href="add/sheet" class="btn btn-seablue" >Import Excel</a>
+            </div>
+            <h5>or</h5>
+            <div class="border-left pl-3 mb-4 mt-4">
+                <h3>Add single student</h3>
                 <p>If the student is not in our database, a new entry will be created. Otherwise we'll match existing student using Academic ID and add that student into your section</p>
             </div>
             @csrf
