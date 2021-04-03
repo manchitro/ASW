@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use DB;
 
 use App\Models\User;
 use App\Models\Section;
@@ -20,6 +22,9 @@ use App\Http\Requests\SheetRequest;
 
 use App\Helpers\SectiontimeHelper;
 use App\Helpers\LectureHelper;
+use App\Helpers\SheetHelper;
+
+use App\Imports\UsersImport;
 
 use Hashids\Hashids;
 
@@ -464,9 +469,72 @@ class FacultyController extends Controller
         $user = $request->session()->get('user');
         return view('faculty.section.addstudentsheet', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section,]);
     }
-    public function processsheet(SheetRequest $request){
-        $sheet = $request->sheet;
-        return $sheet;
+    public function processsheet(SheetRequest $request, $sectioneid)
+    {
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $sectionid = $hashids->decode($sectioneid)[0];
+        $user = $request->session()->get('user');
+        $section = Section::find($sectionid);
+        $sheet = $request->file('sheet');
+        $students = Excel::toArray(new UsersImport, $sheet);
+        $users = [];
+        $sectionstudents = [];
+        $errors = [];
+        $index = 0;
+        foreach (array_slice($students[0], 1) as $student) {
+            if (User::where('academicid', $student[0])->exists()) {
+                if (Sectionstudent::where('sectionid', $sectionid)->where('studentid', User::where('academicid', $student[0])->first()->id)->doesntExist()) {
+                    $sectionstudent = new Sectionstudent();
+                    $sectionstudent->sectionid = $sectionid;
+                    $existingstudent = User::where('academicid', $student[0])->first();
+                    $sectionstudent->studentid = $existingstudent->id;
+                    $sectionstudent->save();
+                    array_push($sectionstudents, $sectionstudent);
+
+                    $errors[$index] = 'Existing student ' . $student[0] . ' added to section';
+                } else {
+                    $errors[$index] = $student[0] . ' already is in this section';
+                }
+            } else {
+                $newuser = new User();
+                $newuser->academicid = $student[0];
+                $newuser->firstname = SheetHelper::split_name($student[1])[0];
+                $newuser->lastname = SheetHelper::split_name($student[1])[1];
+                $newuser->usertype = 'student';
+                $newuser->save();
+
+                $sectionstudent = new Sectionstudent();
+                $sectionstudent->sectionid = $sectionid;
+                $sectionstudent->studentid = $newuser->id;
+                $sectionstudent->save();
+
+                $errors[$index] = 'New student ' . $newuser->academicid . ' has been added to section';
+            }
+            $index++;
+            // $user = new User();
+            // $user->academicid = $student[0];
+            // $user->firstname = SheetHelper::split_name($student[1])[0];
+            // $user->lastname = SheetHelper::split_name($student[1])[1];
+            // $user->usertype = 'student';
+            // array_push($users, $user);
+            // try {
+            //     User::insertOrIgnore($user->toarray());
+            //     try {
+            //         $sectionstudent = new SectionStudent();
+            //         $sectionstudent->sectionid = $sectionid;
+            //         $sectionstudent->studentid = DB::getPdo()->lastInsertId();
+            //         SectionStudent::insertOrIgnore($sectionstudent->toarray());
+            //     } catch (Exception $e) {
+            //         array_push($errors, $e->getMessage());
+            //     }
+            // } catch (Exception $e) {
+            //     array_push($errors, $e->getMessage());
+            // }
+        }
+
+        $request->session()->flash('message', 'Spreadsheet has been imported to ' . $section->sectionname);
+        $request->session()->flash('messages', $errors);
+        return redirect('/faculty/section/' . $sectioneid . '/students');
     }
     public function savestudent(StudentRequest $request, $sectioneid)
     {

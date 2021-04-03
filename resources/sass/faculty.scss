@@ -96,6 +96,9 @@ a:focus {
 .no-wrap {
     white-space: nowrap;
 }
+.h-90 {
+    height: 90%;
+}
 .soft-shadow {
     border-radius: 0;
     background: #2a2829;
@@ -118,6 +121,10 @@ a:focus {
 }
 .float:hover {
     background-color: $blanco;
+}
+
+.modal-content {
+    background-color: $nightgray;
 }
 
 .my-float {
@@ -186,11 +193,11 @@ a:focus {
     visibility: visible;
     right: 0;
 }
-.color-seablue{
+.color-seablue {
     color: $seablue;
 }
 
-.form-control-plaintext{
+.form-control-plaintext {
     color: $blanco;
 }
 .section-form {

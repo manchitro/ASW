@@ -16235,6 +16235,10 @@ a:focus {
   white-space: nowrap;
 }
 
+.h-90 {
+  height: 90%;
+}
+
 .soft-shadow {
   border-radius: 0;
   background: #2a2829;
@@ -16260,6 +16264,10 @@ a:focus {
 
 .float:hover {
   background-color: #FFFEFF;
+}
+
+.modal-content {
+  background-color: #2A2829;
 }
 
 .my-float {
