@@ -50,6 +50,12 @@ h6 {
 .seabluebg {
     background-color: $seablue;
 }
+.color-blanco {
+    color: $blanco !important;
+}
+.color-seablue {
+    color: $seablue;
+}
 #main-nav {
     z-index: 999;
 }
@@ -90,9 +96,6 @@ a:focus {
 .btn-seablue:hover {
     background-color: $blanco;
 }
-.color-seablue {
-    color: $seablue;
-}
 .no-wrap {
     white-space: nowrap;
 }
@@ -125,6 +128,14 @@ a:focus {
 
 .modal-content {
     background-color: $nightgray;
+}
+
+.table-transparent {
+    background-color: rgba(255, 255, 255, 0) !important;
+}
+
+.table-borderless {
+    border: none !important;
 }
 
 .my-float {
@@ -359,7 +370,18 @@ a:focus {
 #sidebar .sidebar-header {
     padding: 20px;
 }
+#sidebar .sidebar-title {
+    padding: 10px 0 10px 20px;
+}
 
+#sidebar .today-class {
+    font-size: 0.8rem;
+}
+
+#sidebar .qricon {
+    font-size: 2rem;
+    vertical-align: middle;
+}
 #sidebar .sidebar-header strong {
     display: none;
     font-size: 1.8em;
@@ -387,7 +409,7 @@ a:focus {
 #sidebar-menu ul li a:hover {
     color: $nightgray;
 }
-#sidebar-menu ul li.activerightmenu{
+#sidebar-menu ul li.activerightmenu {
     color: $nightgray;
 }
 

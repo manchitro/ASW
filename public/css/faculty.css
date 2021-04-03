@@ -16180,6 +16180,14 @@ h6 {
   background-color: #6d7fcc;
 }
 
+.color-blanco {
+  color: #FFFEFF !important;
+}
+
+.color-seablue {
+  color: #6d7fcc;
+}
+
 #main-nav {
   z-index: 999;
 }
@@ -16227,10 +16235,6 @@ a:focus {
   background-color: #FFFEFF;
 }
 
-.color-seablue {
-  color: #6d7fcc;
-}
-
 .no-wrap {
   white-space: nowrap;
 }
@@ -16268,6 +16272,14 @@ a:focus {
 
 .modal-content {
   background-color: #2A2829;
+}
+
+.table-transparent {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
+.table-borderless {
+  border: none !important;
 }
 
 .my-float {
@@ -16509,6 +16521,19 @@ a:focus {
 
 #sidebar .sidebar-header {
   padding: 20px;
+}
+
+#sidebar .sidebar-title {
+  padding: 10px 0 10px 20px;
+}
+
+#sidebar .today-class {
+  font-size: 0.8rem;
+}
+
+#sidebar .qricon {
+  font-size: 2rem;
+  vertical-align: middle;
 }
 
 #sidebar .sidebar-header strong {
