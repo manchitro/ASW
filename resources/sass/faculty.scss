@@ -387,6 +387,9 @@ a:focus {
 #sidebar-menu ul li a:hover {
     color: $nightgray;
 }
+#sidebar-menu ul li.activerightmenu{
+    color: $nightgray;
+}
 
 #sidebar ul li a i,
 #sidebar-menu ul li a i {

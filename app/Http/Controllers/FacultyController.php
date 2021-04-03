@@ -23,6 +23,7 @@ use App\Http\Requests\SheetRequest;
 use App\Helpers\SectiontimeHelper;
 use App\Helpers\LectureHelper;
 use App\Helpers\SheetHelper;
+use App\Helpers\AttendanceHelper;
 
 use App\Imports\UsersImport;
 
@@ -407,7 +408,7 @@ class FacultyController extends Controller
         $section = Section::find($sectionid);
         $lecture = Lecture::find($lectureid);
 
-        if (strtotime($lecture->date) < strtotime('now')) {
+        if (!strtotime($lecture->date) > strtotime('now')) {
             $request->session()->flash('warning', 'Cannot edit classes that have already happened');
             return redirect()->back();
         }
@@ -532,6 +533,7 @@ class FacultyController extends Controller
             // }
         }
 
+        AttendanceHelper::generateAttendance($sectionid);
         $request->session()->flash('message', 'Spreadsheet has been imported to ' . $section->sectionname);
         $request->session()->flash('messages', $errors);
         return redirect('/faculty/section/' . $sectioneid . '/students');

@@ -5,6 +5,9 @@
         @slot('sectioneid')
             {{ $section->eid }}
         @endslot
+        @slot('currentpage')
+            {{ 'addstudent' }}
+        @endslot
         @slot('rightmenustate')
             {{ $user->rightmenustate }}
         @endslot
@@ -13,8 +16,8 @@
         <form action="" method="post" class="section-form w-100">
             <div class="border-left pl-3 mt-4 mb-4">
                 <h3>Import excel sheet</h3>
-                <p>You can download a excel sheet that contains the ID and name of the students from your portal. Import that sheet here to automatically add all students in your section</p>
-                <a href="add/sheet" class="btn btn-seablue" >Import Excel</a>
+                <p>You can download an excel sheet that contains the ID and name of the students from your portal. Import that sheet here to automatically add all students in your section</p>
+                <a href="add/sheet" class="btn btn-seablue">Import Excel</a>
             </div>
             <h5>or</h5>
             <div class="border-left pl-3 mb-4 mt-4">

@@ -7,37 +7,37 @@
             {{-- <li>
                 <h5>{{$sectionname}}</h5>
             </li> --}}
-            <li>
+            <li class="{{ $currentpage == 'students' ? 'activerightmenu' : '' }}">
                 <a href="/faculty/section/{{ $sectioneid }}/students">
                     <i class="fas fa-users"></i>
                     View Students
                 </a>
             </li>
-            <li>
+            <li class="{{ $currentpage == 'addstudent' ? 'activerightmenu' : '' }}">
                 <a href="/faculty/section/{{ $sectioneid }}/students/add">
                     <i class="fas fa-user-plus"></i>
                     Add Students
                 </a>
             </li>
-            <li>
+            <li class="{{ $currentpage == 'removestudents' ? 'activerightmenu' : '' }}">
                 <a href="/faculty/section/{{ $sectioneid }}/students/remove">
                     <i class="fas fa-user-minus"></i>
                     Remove Students
                 </a>
             </li>
-            <li>
+            <li class="{{ $currentpage == 'edit' ? 'activerightmenu' : '' }}">
                 <a href="/faculty/section/{{ $sectioneid }}/edit">
                     <i class="fas fa-edit"></i>
                     Edit Section
                 </a>
             </li>
-            <li>
+            <li class="{{ $currentpage == 'addlecture' ? 'activerightmenu' : '' }}">
                 <a href="/faculty/section/{{ $sectioneid }}/lectures/add">
                     <i class="fas fa-calendar-plus"></i>
                     Add Lecture
                 </a>
             </li>
-            <li>
+            <li class="{{ $currentpage == 'lectures' ? 'activerightmenu' : '' }}">
                 <a href="/faculty/section/{{ $sectioneid }}/lectures">
                     <i class="fas fa-calendar-alt"></i>
                     View Lectures

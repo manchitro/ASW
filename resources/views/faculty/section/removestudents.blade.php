@@ -5,6 +5,9 @@
         @slot('sectioneid')
             {{ $section->eid }}
         @endslot
+        @slot('currentpage')
+            {{ 'removestudents' }}
+        @endslot
         @slot('rightmenustate')
             {{ $user->rightmenustate }}
         @endslot
