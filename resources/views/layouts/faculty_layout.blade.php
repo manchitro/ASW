@@ -63,7 +63,7 @@
                     <h3>ASW Faculty Portal</h3>
                     <strong>FP</strong>
                 </div>
-                <ul class="list-unstyled components shadow-lg">
+                <ul class="list-unstyled components shadow-lg m-0">
                     <li class="{{ $currpage == 'Sections' ? 'active' : '' }}">
                         <a href="/faculty">
                             <i class="fas fa-user-friends"></i>
@@ -91,8 +91,8 @@
                 </ul>
                 <div class="sidebar-today overflow-auto h-50 color-blanco">
                     <h5 class="sidebar-title">Today's Classes</h5>
-                    <ul class="list-unstyled ">
-                        <li class="border-top">
+                    <ul class="list-unstyled" id="todays-list">
+                        {{-- <li class="border-top">
                             <div class="today-class p-2">
                                 <table class="table table-dark table-sm table-transparent table-borderless">
                                     <tr>
@@ -107,59 +107,11 @@
                                     </tr>
                                 </table>
                             </div>
-                        </li>
-                        <li class="border-top">
-                            <div class="today-class p-2">
-                                <table class="table table-dark table-sm table-transparent table-borderless">
-                                    <tr>
-                                        <td class="font-weight-bold">OBJECT ORIENTED PROGRAMMING 2 [H]</td>
-                                        <td rowspan="3" class="qricon px-2"><i class="fas fa-qrcode"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-italic">8:00 - 10:00 [Lab]</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-italic">at 1115</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </li>
-                        <li class="border-top">
-                            <div class="today-class p-2">
-                                <table class="table table-dark table-sm table-transparent table-borderless">
-                                    <tr>
-                                        <td class="font-weight-bold">OBJECT ORIENTED PROGRAMMING 2 [H]</td>
-                                        <td rowspan="3" class="qricon px-2"><i class="fas fa-qrcode"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-italic">8:00 - 10:00 [Lab]</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-italic">at 1115</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </li>
-                        <li class="border-top">
-                            <div class="today-class p-2">
-                                <table class="table table-dark table-sm table-transparent table-borderless">
-                                    <tr>
-                                        <td class="font-weight-bold">OBJECT ORIENTED PROGRAMMING 2 [H]</td>
-                                        <td rowspan="3" class="qricon px-2"><i class="fas fa-qrcode"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-italic">8:00 - 10:00 [Lab]</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-italic">at 1115</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </nav>
-            <div class="container-fluid px-0">
+            <div class="container-fluid fullscreen-flex px-0">
                 <nav class="navbar navbar-expand-lg nightbg d-flex justify-content-start align-items-center shadow-lg">
                     <button type="button" id="sidebarCollapse" class="btn btn-seablue mr-3">
                         <i class="fas fa-align-left"></i>
@@ -184,6 +136,19 @@
             </div>
         </main>
     </div>
+    <script>
+        window.addEventListener('load', function() {
+            $.get("/faculty/todaysclasses", function(data) {
+                var lectures = JSON.parse(data);
+                lectures.forEach(function(lecture) {
+                    var li = '<li class="border-top"><div class="today-class p-2"><table class="table table-dark table-sm table-transparent table-borderless"><tr><td class="font-weight-bold">' + lecture.sectionname + '</td><td rowspan="3" class="qricon px-2"><i class="fas fa-qrcode"></i></td></tr><tr><td class="font-italic">' + lecture.starttime + ' - ' + lecture.endtime + ' [' + lecture.classtype + ']</td></tr><tr><td class="font-italic">at ' + lecture.room + '</td></tr></table></div></li>'
+                    $('#todays-list').append(li);
+                })
+
+            })
+        })
+
+    </script>
     @include('popper::assets')
 </body>
 

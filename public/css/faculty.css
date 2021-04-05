@@ -16382,6 +16382,16 @@ a:focus {
   color: rgba(255, 255, 255, 0.342);
 }
 
+.fullscreen-flex {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.fullscreen-flex-item {
+  flex: 1;
+}
+
 /* The check-container */
 .check-container {
   display: block;
@@ -16462,6 +16472,9 @@ a:focus {
   background: #2A2829;
   color: #FFFEFF;
   transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 #sidebar-menu {
@@ -16470,6 +16483,10 @@ a:focus {
   color: #FFFEFF;
   transition: all 0.3s;
   border-radius: 20px 0 0 20px;
+}
+
+.sidebar-today {
+  flex: 1;
 }
 
 #sidebar.active,
@@ -16524,7 +16541,7 @@ a:focus {
 }
 
 #sidebar .sidebar-title {
-  padding: 10px 0 10px 20px;
+  padding: 10px 0 10px 10px;
 }
 
 #sidebar .today-class {

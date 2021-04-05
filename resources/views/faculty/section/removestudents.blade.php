@@ -12,9 +12,15 @@
             {{ $user->rightmenustate }}
         @endslot
     @endcomponent
-    <form method="post" action="" class="table-responsive h-90 overflow-auto">
+    <form method="post" action="" class="table-responsive fullscreen-flex-item overflow-auto">
         @csrf
         <div>
+            <div class="select-buttons px-4 py-2">
+                <button type="submit" class="btn btn-outline-danger">Remove Selected</button>
+                <a href="/faculty/section/{{ $section->eid }}/students" class="btn btn-outline-seablue">
+                    Back
+                </a>
+            </div>
             <table class="table table-dark table-striped table-hover table-sm">
                 <thead class="thead-dark">
                     <tr>
@@ -50,12 +56,6 @@
         @if (count($students) == 0)
             <div class="mx-3 text-warning h5">There are no students in this section as of now. To add students use the Add student button from the menu below or <a href="add"><u>click here</u></a></div>
         @endif
-        <div class="select-buttons px-4 py-2">
-            <button type="submit" class="btn btn-outline-danger">Remove Selected</button>
-            <a href="/faculty/section/{{ $section->eid }}/students" class="btn btn-outline-seablue">
-                Back
-            </a>
-        </div>
         <script>
             window.addEventListener("load", function() {
                 $("#select-all").click(function() {

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
-use DB;
 
 use App\Models\User;
 use App\Models\Section;
@@ -295,6 +294,10 @@ class FacultyController extends Controller
         $sectionid = $hashids->decode($sectioneid)[0];
         $section = Section::find($sectionid);
         $decodedstudentids = [];
+        if ($request->student == null) {
+            $request->session()->flash('error', 'No students were selected');
+            return redirect('/faculty/section/' . $sectioneid . '/students/remove');
+        }
         foreach ($request->student as $student) {
             array_push($decodedstudentids, $hashids->decode($student)[0]);
         }
@@ -608,6 +611,24 @@ class FacultyController extends Controller
         } else {
             return abort(401);
         }
+    }
+
+    public function todaysclasses(Request $request)
+    {
+        $user = $request->session()->get('user');
+
+        $sections = Section::where('facultyid', $user->id)->get();
+        $lectures = [];
+
+        foreach ($sections as $section) {
+            $sectionlectures = Lecture::where('sectionid', $section->id)->where('date', date('Y-m-d'))->get();
+            $formattedlectures = LectureHelper::formatlectures($sectionlectures);
+            foreach ($formattedlectures as $formattedlecture) {
+                $formattedlecture->sectionname = $section->sectionname;
+                array_push($lectures, $formattedlecture);
+            }
+        }
+        return json_encode($lectures);
     }
 
     public function togglerightmenustate(Request $request)
