@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 
 use App\Models\User;
 use App\Models\Section;
@@ -23,6 +24,7 @@ use App\Helpers\SectiontimeHelper;
 use App\Helpers\LectureHelper;
 use App\Helpers\SheetHelper;
 use App\Helpers\AttendanceHelper;
+use App\Helpers\SectionNameHelper;
 
 use App\Imports\UsersImport;
 
@@ -617,6 +619,7 @@ class FacultyController extends Controller
     {
         $user = $request->session()->get('user');
 
+        $hashids = new Hashids($request->session()->getId(), 7);
         $sections = Section::where('facultyid', $user->id)->get();
         $lectures = [];
 
@@ -625,12 +628,76 @@ class FacultyController extends Controller
             $formattedlectures = LectureHelper::formatlectures($sectionlectures);
             foreach ($formattedlectures as $formattedlecture) {
                 $formattedlecture->sectionname = $section->sectionname;
+                $formattedlecture->eid = $hashids->encode($formattedlecture->id);
                 array_push($lectures, $formattedlecture);
             }
         }
         return json_encode($lectures);
     }
 
+    public function getqr(Request $request)
+    {
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $lectureid = $hashids->decode($request->lectureeid);
+        $lecture = Lecture::find($lectureid)->first();
+        $section = Section::find($lecture->sectionid);
+        if ($lecture->qrcode == null) {
+            $qrtext = new \stdClass();
+            $qrtext->sectionname = SectionNameHelper::abbrSectionName($section->sectionname);
+            $qrtext->lectureid = $lecture->id;
+            $qrtext->date = $lecture->date;
+            $qrtext->starttime = $lecture->starttime;
+            $qrtext->endtime = $lecture->endtime;
+            $qrtext->classtype = $lecture->classtype;
+            // $qrcode = base64_encode(json_encode($qrtext));
+            $qrcode = (json_encode($qrtext));
+            $lecture->qrcode = $qrcode;
+            $lecture->save();
+            return $lecture->qrcode;
+        } else {
+            return $lecture->qrcode;
+        }
+    }
+
+    public function recordstart(Request $request)
+    {
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $lectureid = $hashids->decode($request->lectureeid);
+        $lecture = Lecture::find($lectureid)->first();
+        if ($lecture->qrstart == null) {
+            $lecture->qrstart = Carbon::now()->toDateTimeString();
+            $lecture->save();
+            return $lecture->qrstart;
+        } else {
+            return $lecture->qrstart;
+        }
+    }
+
+    public function recordend(Request $request)
+    {
+        $hashids = new Hashids($request->session()->getId(), 7);
+        $lectureid = $hashids->decode($request->lectureeid);
+        $lecture = Lecture::find($lectureid)->first();
+        if ($lecture->qrstart != null) {
+            $currentTime = Carbon::now();
+            $hrFromQrstart = strtotime($lecture->qrstart) + 3600;
+            // return date('Y-m-d H:i:s', $hrFromQrstart).$currentTime;
+            if (strtotime($currentTime) < $hrFromQrstart) {
+                $lecture->qrend = $currentTime;
+                $lecture->save();
+                return 'within 1 hr. Saved new end time: ' . $lecture->qrend;
+            } else {
+                if ($lecture->qrend == null) {
+                    $lecture->qrend = date('Y-m-d H:i:s', strtotime($lecture->qrstart) + 3600);
+                    $lecture->save();
+                    return 'not within 1 hr. Current end time not saved. End time set to 1 hr from start: ' . $lecture->qrend;
+                }
+                return 'not within 1 hr. New end time not saved. Old end time: ' . $lecture->qrend;
+            }
+        } else {
+            return 'start time not found';
+        }
+    }
     public function togglerightmenustate(Request $request)
     {
         if ($request->session()->get('user')->rightmenustate == 'shown') {

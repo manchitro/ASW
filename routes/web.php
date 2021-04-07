@@ -57,6 +57,9 @@ Route::group(['middleware' => ['session']], function () {
         Route::get('/faculty/section/{sectionid}/lectures/{lectureid}/delete', [App\Http\Controllers\FacultyController::class, 'deletelecture'])->name('faculty_deletelecture');
 
         Route::get('faculty/todaysclasses', [App\Http\Controllers\FacultyController::class, 'todaysclasses'])->name('todaysclasses');
+        Route::post('faculty/getqr', [App\Http\Controllers\FacultyController::class, 'getqr'])->name('getqr');
+        Route::post('faculty/recordstart', [App\Http\Controllers\FacultyController::class, 'recordstart'])->name('recordstart');
+        Route::post('faculty/recordend', [App\Http\Controllers\FacultyController::class, 'recordend'])->name('recordend');
 
         Route::get('/faculty/search', [App\Http\Controllers\FacultyController::class, 'search'])->name('faculty_seach');
         Route::get('/faculty/profile', [App\Http\Controllers\FacultyController::class, 'profile'])->name('faculty_profile');

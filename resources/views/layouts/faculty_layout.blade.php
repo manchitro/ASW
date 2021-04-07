@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -13,6 +14,8 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/datepicker.js') }}" defer></script>
+    <script src="{{ asset('js/qrdisplay.js') }}" defer></script>
+    <script src="{{ asset('js/qrcode.min.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -26,37 +29,6 @@
 
 <body>
     <div id="app" class="vh-100">
-        {{-- <nav class="navbar navbar-expand-sm nightbg navbar-dark blur5 shadow-lg" id="main-nav">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto version">
-                        0.1.0 alpha
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto nav-profile h5">
-                        <div class="dropdown">
-                            <button class="btn btn-dark dropdown-toggle d-flex flex-row justify-content-center align-items-center px-2 py-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-user-circle"></i>
-                                <a class="nav-link" href="{{ url('/') }}">{{ $user->firstname . ' ' . $user->lastname }}</a>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="btn text-dark font-weight-bold dropdown-item" type="button" href="/faculty/profile">Your Profile</a>
-                                <a class="btn text-danger font-weight-bold dropdown-item" type="button" href="/logout">Logout</a>
-                            </div>
-                        </div>
-                    </ul>
-                </div>
-            </div>
-        </nav> --}}
         <main class="py-0 d-flex flex-row h-100">
             <nav id="sidebar" class="shadow-lg">
                 <div class="sidebar-header shadow-lg">
@@ -92,22 +64,6 @@
                 <div class="sidebar-today overflow-auto h-50 color-blanco">
                     <h5 class="sidebar-title">Today's Classes</h5>
                     <ul class="list-unstyled" id="todays-list">
-                        {{-- <li class="border-top">
-                            <div class="today-class p-2">
-                                <table class="table table-dark table-sm table-transparent table-borderless">
-                                    <tr>
-                                        <td class="font-weight-bold">OBJECT ORIENTED PROGRAMMING 2 [H]</td>
-                                        <td rowspan="3" class="qricon px-2"><i class="fas fa-qrcode"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-italic">8:00 - 10:00 [Lab]</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-italic">at 1115</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </li> --}}
                     </ul>
                 </div>
             </nav>
@@ -136,12 +92,40 @@
             </div>
         </main>
     </div>
+    {{-- <div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" id="qrcode">
+        </div>
+    </div> --}}
+    <div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" id="qrcode" role="document">
+        </div>
+    </div>
     <script>
         window.addEventListener('load', function() {
             $.get("/faculty/todaysclasses", function(data) {
                 var lectures = JSON.parse(data);
                 lectures.forEach(function(lecture) {
-                    var li = '<li class="border-top"><div class="today-class p-2"><table class="table table-dark table-sm table-transparent table-borderless"><tr><td class="font-weight-bold">' + lecture.sectionname + '</td><td rowspan="3" class="qricon px-2"><i class="fas fa-qrcode"></i></td></tr><tr><td class="font-italic">' + lecture.starttime + ' - ' + lecture.endtime + ' [' + lecture.classtype + ']</td></tr><tr><td class="font-italic">at ' + lecture.room + '</td></tr></table></div></li>'
+                    var li =
+                        '<li class="border-top">' +
+                        '<div class="today-class p-2">' +
+                        '<table class="table table-dark table-sm table-transparent table-borderless">' +
+                        '<tr>' +
+                        '<td class="font-weight-bold">' + lecture.sectionname + '</td>' +
+                        '<td rowspan="3" class="qricon px-2">' +
+                        '<button class="btn btn-lg btn-outline-seablue qr-button" id="' + lecture.eid + '" onclick="qrbuttonclick(\'' + lecture.eid + '\')">' +
+                        '<i class="fas fa-qrcode"></i>' +
+                        '</button>' +
+                        '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td class="font-italic">' + lecture.starttime + ' - ' + lecture.endtime + ' [' + lecture.classtype + ']</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td class="font-italic">at ' + lecture.room + '</td>' +
+                        '</tr>' +
+                        '</table>' +
+                        '</div>' +
+                        '</li>';
                     $('#todays-list').append(li);
                 })
 
