@@ -31,10 +31,12 @@
     <div id="app" class="vh-100">
         <main class="py-0 d-flex flex-row h-100">
             <nav id="sidebar" class="shadow-lg">
-                <div class="sidebar-header shadow-lg">
-                    <h3>ASW Faculty Portal</h3>
-                    <strong>FP</strong>
-                </div>
+                <a href="/faculty">
+                    <div class="sidebar-header shadow-lg">
+                        <h3>ASW Faculty Portal</h3>
+                        <strong>FP</strong>
+                    </div>
+                </a>
                 <ul class="list-unstyled components shadow-lg m-0">
                     <li class="{{ $currpage == 'Sections' ? 'active' : '' }}">
                         <a href="/faculty">
@@ -54,6 +56,12 @@
                             Profile
                         </a>
                     </li>
+                    <li class="{{ $currpage == 'Help' ? 'active' : '' }}">
+                        <a href="/faculty/help">
+                            <i class="fas fa-question-circle"></i>
+                            Help
+                        </a>
+                    </li>
                     <li>
                         <a href="/logout" class="text-danger">
                             <i class="fas fa-sign-out-alt"></i>
@@ -62,7 +70,7 @@
                     </li>
                 </ul>
                 <div class="sidebar-today overflow-auto h-50 color-blanco">
-                    <h5 class="sidebar-title">Today's Classes</h5>
+                    <h5 class="sidebar-title">Today's Lectures</h5>
                     <ul class="list-unstyled" id="todays-list">
                     </ul>
                 </div>
@@ -102,8 +110,16 @@
     </div>
     <script>
         window.addEventListener('load', function() {
+            loadtodaysclasses();
+        })
+
+        function loadtodaysclasses() {
             $.get("/faculty/todaysclasses", function(data) {
                 var lectures = JSON.parse(data);
+                if(lectures.length == 0) {
+                    var p = '<p class="p-2 border-top">No Lectures today</p>'
+                    $('#todays-list').append(p);
+                }
                 lectures.forEach(function(lecture) {
                     var li =
                         '<li class="border-top">' +
@@ -123,6 +139,9 @@
                         '<tr>' +
                         '<td class="font-italic">at ' + lecture.room + '</td>' +
                         '</tr>' +
+                        '<tr>' +
+                        (lecture.qrstart == null ? '<td>QR not shown yet</td>' : '<td class="font-italic">QR shown from ' + lecture.qrstart.substring(10, lecture.qrstart.length) + ' to ' + lecture.qrend.substring(10, lecture.qrstart.length) + '</td>') +
+                        '</tr>' +
                         '</table>' +
                         '</div>' +
                         '</li>';
@@ -130,7 +149,7 @@
                 })
 
             })
-        })
+        }
 
     </script>
     @include('popper::assets')

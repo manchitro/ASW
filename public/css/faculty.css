@@ -16409,6 +16409,18 @@ a:focus {
   min-height: 100%;
 }
 
+.dark-list {
+  background-color: #2A2829;
+}
+.dark-list .list-group-item {
+  background-color: #6d7fcc;
+  border: 1px solid #2A2829;
+}
+.dark-list .card {
+  background-color: #2A2829;
+  box-shadow: inset 0 0 10px #000000;
+}
+
 /* The check-container */
 .check-container {
   display: block;

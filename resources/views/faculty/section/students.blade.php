@@ -52,7 +52,7 @@
                     <th scope="col" style="width: 10%">ID</th>
                     <th scope="col" style="width: 30%">Name</th>
                     @foreach ($lectures as $lecture)
-                        <th scope="col">{{ substr($lecture->date, 0, -6) }}</th>
+                        <th scope="col">{{ substr($lecture->date, 0, -6)." [".$lecture->classtype."] ".$lecture->starttime."-".$lecture->endtime}}</th>
                     @endforeach
                 </tr>
             </thead>

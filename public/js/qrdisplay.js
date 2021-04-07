@@ -2,7 +2,7 @@ function qrbuttonclick(lectureeid) {
     console.log(lectureeid);
     $.ajax({
         type: "post",
-        url: "getqr",
+        url: "/faculty/getqr",
         data: {
             lectureeid: lectureeid,
         },
@@ -26,7 +26,7 @@ function qrbuttonclick(lectureeid) {
 
             $.ajax({
                 type: "POST",
-                url: "recordstart",
+                url: "/faculty/recordstart",
                 data: {
                     lectureeid: lectureeid,
                 },
@@ -54,7 +54,7 @@ function qrbuttonclick(lectureeid) {
         $("#qrcode").empty();
         $.ajax({
             type: "POST",
-            url: "recordend",
+            url: "/faculty/recordend",
             data: {
                 lectureeid: lectureeid,
             },
@@ -71,6 +71,8 @@ function qrbuttonclick(lectureeid) {
                 );
             },
         });
+        $("#todays-list").empty();
+        loadtodaysclasses();
     });
 }
 

@@ -104,6 +104,13 @@ class FacultyController extends Controller
         $request->session()->flash('errorpass', 'Your old password was incorrect. Please try again.');
         return redirect('/faculty/profile/password');
     }
+    public function help(Request $request) {
+        $currpage = 'Help';
+        $pagetitle = 'Help';
+
+        $user = $request->session()->get('user');
+        return view('faculty.help', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user]);
+    }
     public function createsection(Request $request)
     {
         $currpage = 'Sections';
