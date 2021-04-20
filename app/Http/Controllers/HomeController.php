@@ -97,4 +97,9 @@ class HomeController extends Controller
     {
         return abort('418');
     }
+
+    public function apilogin()
+    {
+        return 'hellow';
+    }
 }

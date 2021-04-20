@@ -116,7 +116,8 @@
         function loadtodaysclasses() {
             $.get("/faculty/todaysclasses", function(data) {
                 var lectures = JSON.parse(data);
-                if(lectures.length == 0) {
+                $('#todays-list').empty();
+                if (lectures.length == 0) {
                     var p = '<p class="p-2 border-top">No Lectures today</p>'
                     $('#todays-list').append(p);
                 }

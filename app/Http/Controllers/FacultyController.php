@@ -104,7 +104,8 @@ class FacultyController extends Controller
         $request->session()->flash('errorpass', 'Your old password was incorrect. Please try again.');
         return redirect('/faculty/profile/password');
     }
-    public function help(Request $request) {
+    public function help(Request $request)
+    {
         $currpage = 'Help';
         $pagetitle = 'Help';
 
@@ -177,7 +178,7 @@ class FacultyController extends Controller
         $section->eid = $sectioneid;
         $sectiontimes = Sectiontime::where('sectionid', $sectionid)->get();
         $currpage = 'Sections';
-        $pagetitle = $section->sectionname . ' - Edit';
+        $pagetitle = SectionNameHelper::abbrSectionName($section->sectionname) . ' - Edit';
 
         $user = $request->session()->get('user');
 
@@ -253,7 +254,7 @@ class FacultyController extends Controller
         $section = Section::find($sectionid);
         $section->eid = $sectioneid;
         $currpage = 'Sections';
-        $pagetitle = $section->sectionname . ' - Students';
+        $pagetitle = SectionNameHelper::abbrSectionName($section->sectionname) . ' - Students';
 
         $user = $request->session()->get('user');
 
@@ -283,7 +284,7 @@ class FacultyController extends Controller
         $section = Section::find($sectionid);
         $section->eid = $sectioneid;
         $currpage = 'Sections';
-        $pagetitle = $section->sectionname . ' - Remove Students';
+        $pagetitle = SectionNameHelper::abbrSectionName($section->sectionname) . ' - Remove Students';
 
         $user = $request->session()->get('user');
 
@@ -334,7 +335,7 @@ class FacultyController extends Controller
             $lecture->eid = $hashids->encode($lecture->id);
         }
         $currpage = 'Sections';
-        $pagetitle = $section->sectionname . ' - Lectures';
+        $pagetitle = SectionNameHelper::abbrSectionName($section->sectionname) . ' - Lectures';
 
         $user = $request->session()->get('user');
 
@@ -351,7 +352,7 @@ class FacultyController extends Controller
         $cpsectiontimes = Sectiontime::where('sectionid', $sectionid)->get();
         $formattedsectiontimes = SectiontimeHelper::formatsectiontimes($cpsectiontimes);
         $currpage = 'Sections';
-        $pagetitle = $section->sectionname . ' - Add Lecture';
+        $pagetitle = SectionNameHelper::abbrSectionName($section->sectionname) . ' - Add Lecture';
 
         $user = $request->session()->get('user');
         // return $sectiontimes;
@@ -407,7 +408,7 @@ class FacultyController extends Controller
         $formattedsectiontimes = SectiontimeHelper::formatsectiontimes($cpsectiontimes);
 
         $currpage = 'Sections';
-        $pagetitle = $section->sectionname . ' - Edit Lecture';
+        $pagetitle = SectionNameHelper::abbrSectionName($section->sectionname) . ' - Edit Lecture';
         $user = $request->session()->get('user');
         return view('faculty.section.lecture.edit', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section, 'lecture' => $lecture, 'formattedsectiontimes' => $formattedsectiontimes, 'sectiontimes' => $sectiontimes]);
     }
@@ -465,7 +466,7 @@ class FacultyController extends Controller
         $section = Section::find($sectionid);
         $section->eid = $sectioneid;
         $currpage = 'Sections';
-        $pagetitle = $section->sectionname . ' - Add Student';
+        $pagetitle = SectionNameHelper::abbrSectionName($section->sectionname) . ' - Add Student';
         $user = $request->session()->get('user');
         return view('faculty.section.addstudent', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section,]);
     }
@@ -478,7 +479,7 @@ class FacultyController extends Controller
         $section = Section::find($sectionid);
         $section->eid = $sectioneid;
         $currpage = 'Sections';
-        $pagetitle = $section->sectionname . ' - Import Excel';
+        $pagetitle = SectionNameHelper::abbrSectionName($section->sectionname) . ' - Import Excel';
         $user = $request->session()->get('user');
         return view('faculty.section.addstudentsheet', ['currpage' => $currpage, 'pagetitle' => $pagetitle, 'user' => $user, 'section' => $section,]);
     }
@@ -650,12 +651,8 @@ class FacultyController extends Controller
         $section = Section::find($lecture->sectionid);
         if ($lecture->qrcode == null) {
             $qrtext = new \stdClass();
-            $qrtext->sectionname = SectionNameHelper::abbrSectionName($section->sectionname);
-            $qrtext->lectureid = $lecture->id;
-            $qrtext->date = $lecture->date;
-            $qrtext->starttime = $lecture->starttime;
-            $qrtext->endtime = $lecture->endtime;
-            $qrtext->classtype = $lecture->classtype;
+            $qrtext->sn = SectionNameHelper::abbrSectionName($section->sectionname);
+            $qrtext->lid = $lecture->id;
             // $qrcode = base64_encode(json_encode($qrtext));
             $qrcode = (json_encode($qrtext));
             $lecture->qrcode = $qrcode;

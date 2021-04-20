@@ -71,4 +71,6 @@ Route::group(['middleware' => ['session']], function () {
         Route::get('/faculty/async/togglerightmenustate', [App\Http\Controllers\FacultyController::class, 'togglerightmenustate'])->name('togglerightmenustate');
         Route::get('/faculty/async/toggleattendance/{eid}/{entry}', [App\Http\Controllers\FacultyController::class, 'toggleattendance'])->name('toggleattendance');
     });
+    
 });
+
