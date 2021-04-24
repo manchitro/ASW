@@ -15,8 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::post('/login', [App\Http\Controllers\StudentController::class, 'login']);
-    Route::post('/register', [App\Http\Controllers\StudentController::class, 'register']);
-    Route::get('/logout', [App\Http\Controllers\StudentController::class, 'logout'])->middleware('auth:api');
-    Route::get('/test', [App\Http\Controllers\StudentController::class, 'test']);
+    Route::post('/student/login', [App\Http\Controllers\StudentController::class, 'login']);
+    Route::post('/student/sections', [App\Http\Controllers\StudentController::class, 'sections']);
+    Route::post('/student/register', [App\Http\Controllers\StudentController::class, 'register']);
+    Route::get('/student/logout', [App\Http\Controllers\StudentController::class, 'logout'])->middleware('auth:api');
+    Route::post('/student/profile', [App\Http\Controllers\StudentController::class, 'profile']);
+
+    Route::get('/student/test', [App\Http\Controllers\StudentController::class, 'test']);
 });

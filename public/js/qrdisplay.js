@@ -11,14 +11,24 @@ function qrbuttonclick(lectureeid) {
         },
         success: function (data) {
             console.log(data);
-            var qrcode = new QRCode(document.getElementById("qrcode"), {
-                width: 512,
-                height: 512,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
+            var qr = new QRious({
+                element: document.getElementById("qrcode"),
+                size: 200,
+                value: "https://studytonight.com",
             });
+            qr.set({
+                foreground: "black",
+                size: 200,
+                value: data,
+            });
+            // var qrcode = new QRCode(document.getElementById("qrcode"), {
+            //     width: 512,
+            //     height: 512,
+            //     colorDark: "#000000",
+            //     colorLight: "#ffffff",
+            // });
 
-            qrcode.makeCode(data);
+            // qrcode.makeCode(data);
 
             $("#qrModal").modal({
                 show: true,
@@ -80,4 +90,3 @@ function qrbuttonclick(lectureeid) {
 //     $("#qrModal").modal("hide");
 // $("#qrcode").empty();
 // });
-

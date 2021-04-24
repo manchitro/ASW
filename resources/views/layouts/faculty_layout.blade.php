@@ -15,7 +15,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/datepicker.js') }}" defer></script>
     <script src="{{ asset('js/qrdisplay.js') }}" defer></script>
-    <script src="{{ asset('js/qrcode.min.js') }}" defer></script>
+    <script src="{{ asset('js/qrious.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -105,7 +105,8 @@
         </div>
     </div> --}}
     <div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" id="qrcode" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <canvas id="qrcode"></canvas>
         </div>
     </div>
     <script>
