@@ -13,13 +13,14 @@ function qrbuttonclick(lectureeid) {
             console.log(data);
             var qr = new QRious({
                 element: document.getElementById("qrcode"),
-                size: 200,
+                size: 512,
                 value: "https://studytonight.com",
             });
             qr.set({
                 foreground: "black",
-                size: 200,
-                value: data,
+                size: 512,
+                // value: '{sn:"OOP2[H]",lid:2,date:"2021-02-03",st:2,et:4,ct:"theory"}',
+                value: data
             });
             // var qrcode = new QRCode(document.getElementById("qrcode"), {
             //     width: 512,

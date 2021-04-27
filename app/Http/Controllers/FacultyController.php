@@ -650,12 +650,16 @@ class FacultyController extends Controller
         $lecture = Lecture::find($lectureid)->first();
         $section = Section::find($lecture->sectionid);
         if ($lecture->qrcode == null) {
-            $qrtext = SectionNameHelper::abbrSectionName($section->sectionname).','.$lecture->id;
-            // $qrtext = new \stdClass();
-            // $qrtext->sn = SectionNameHelper::abbrSectionName($section->sectionname);
-            // $qrtext->lid = $lecture->id;
+            // $qrtext = SectionNameHelper::abbrSectionName($section->sectionname) . ',' . $lecture->id;
+            $qrtext = new \stdClass();
+            $qrtext->sn = SectionNameHelper::abbrSectionName($section->sectionname);
+            $qrtext->lid = $lecture->id;
+            $qrtext->date = $lecture->date;
+            $qrtext->st = $lecture->starttime;
+            $qrtext->et = $lecture->endtime;
+            $qrtext->ct = $lecture->classtype;
             $qrcode = base64_encode(json_encode($qrtext));
-            // $qrcode = (json_encode($qrtext));
+            // $qrcode = (($qrtext));
             $lecture->qrcode = $qrcode;
             $lecture->save();
             return $lecture->qrcode;

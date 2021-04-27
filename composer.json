@@ -10,15 +10,17 @@
     "require": {
         "php": "^7.3|^8.0",
         "andcarpi/laravel-popper": "^0.9.4",
+        "fabpot/goutte": "^4.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^7.3",
         "hashids/hashids": "^4.1",
         "laravel/framework": "^8.12",
         "laravel/passport": "^10.1",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
-        "maatwebsite/excel": "^3.1"
+        "maatwebsite/excel": "^3.1",
+        "symfony/dom-crawler": "^5.2"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
