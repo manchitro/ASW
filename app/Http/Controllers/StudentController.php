@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\SectionStudent;
 use App\Models\Section;
 use App\Models\SectionTime;
+use App\Models\Attendance;
 
 use App\Helpers\SectionTimeHelper;
 use App\Helpers\HTMLHelper;
@@ -24,7 +25,8 @@ class StudentController extends Controller
         if ($academicid == null || $password == null) {
             return response()->json([
                 'login' => false,
-                'error' => 'Academic ID and Password is required'
+                'error' => 'Academic ID and Password is required',
+                'request' => $academicid . ',' . $password
             ]);
         }
 
@@ -52,7 +54,7 @@ class StudentController extends Controller
                 if ($name != '') {
                     //create token
                     $token = Str::random(32);
-                    $user->remember_token = $token;
+                    $user->token = $token;
                     $user->save();
 
                     return response()->json([
@@ -66,7 +68,7 @@ class StudentController extends Controller
                 else {
                     //create token
                     $token = Str::random(32);
-                    $user->remember_token = $token;
+                    $user->token = $token;
                     $user->save();
 
                     return response()->json([
@@ -86,91 +88,100 @@ class StudentController extends Controller
         } else {
             return response()->json([
                 'login' => false,
-                'error' => 'Your account does not exist. Please ask your faculty to add you to a section.'
+                'error' => 'Your account does not exist. Please check your academic ID or ask your faculty to add you to a section.'
             ]);
         }
     }
 
     public function sections(Request $request)
     {
-        $academicid = $request->academicid;
+        if ($request->hasHeader('Authorization')) {
+            $token = Str::substr($request->header('Authorization'), 7, Str::length($request->header('Authorization')));
+            if (User::where('token', $token)->exists()) {
+                $studentid = User::where('token', $token)->first()->id;
+                $sectionids = SectionStudent::where('studentid', $studentid)->get();
+                $sections = [];
 
-        if ($academicid == null) {
-            return response()->json([
-                'gotid' => $academicid,
-                'success' => 'false',
-                'message' => 'Academic ID is null'
-            ]);
-        }
-
-        if (User::where('academicid', $academicid)->exists()) {
-            $studentid = User::where('academicid', $academicid)->first()->id;
-            $sectionids = SectionStudent::where('studentid', $studentid)->get();
-            $sections = [];
-
-            foreach ($sectionids as $sectionid) {
-                $section = Section::find($sectionid);
-                $sectiontimes = Sectiontime::where('sectionid', $section[0]->id)->get();
-                $section[0]->sectiontimes = SectiontimeHelper::formatsectiontimes($sectiontimes);
-                array_push($sections, $section);
+                foreach ($sectionids as $sectionid) {
+                    $section = Section::find($sectionid);
+                    $sectiontimes = Sectiontime::where('sectionid', $section[0]->id)->get();
+                    $section[0]->sectiontimes = SectiontimeHelper::formatsectiontimes($sectiontimes);
+                    array_push($sections, $section);
+                }
+                return response()->json([
+                    'success' => true,
+                    'gotAuthorization' => $request->header('Authorization'),
+                    'foundUser' => User::where('token', $token)->first(),
+                    'sections' => $sections
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'User not authorized. Please login again',
+                    'gotAuthorization' => $token,
+                ]);
             }
-
-            return response()->json([
-                'gotid' => $academicid,
-                'success' => 'true',
-                'studentexists' => 'true',
-                'student' => User::where('academicid', $request->academicid)->get(),
-                'sections' => $sections
-            ]);
         } else {
             return response()->json([
-                'gotid' => $academicid,
-                'success' => 'false',
-                'message' => $academicid . ' does not exist in the database'
+                'success' => false,
+                'error' => 'Authorization not found. Please login again',
+                'gotAuthorization' => $request->header('Authorization'),
             ]);
         }
     }
 
     public function profile(Request $request)
     {
-        $academicid = $request->academicid;
-        if ($academicid == null) {
-            return response()->json([
-                'gotid' => $academicid,
-                'success' => 'false',
-                'message' => 'Academic ID is null'
-            ]);
-        }
-        if (User::where('academicid', $academicid)->exists()) {
-            $student = User::where('academicid', $academicid)->first();
-
-            if ($student->usertype == 'student') {
+        if ($request->hasHeader('Authorization')) {
+            $token = Str::substr($request->header('Authorization'), 7, Str::length($request->header('Authorization')));
+            if (User::where('token', $token)->exists()) {
                 return response()->json([
-                    'gotid' => $academicid,
-                    'success' => 'true',
-                    'studentexists' => 'true',
-                    'student' => User::where('academicid', $request->academicid)->get(),
+                    'success' => true,
+                    'gotAuthorization' => $request->header('Authorization'),
+                    'foundUser' => User::where('token', $token)->first(),
                 ]);
             } else {
                 return response()->json([
-                    'gotid' => $academicid,
-                    'success' => 'false',
-                    'message' => $academicid . ' does not exist in the database'
+                    'success' => false,
+                    'error' => 'User not authorized. Please login again',
+                    'gotAuthorization' => $token,
                 ]);
             }
         } else {
             return response()->json([
-                'gotid' => $academicid,
-                'success' => 'false',
-                'message' => $academicid . ' does not exist in the database'
+                'success' => false,
+                'error' => 'Authorization not found. Please login again',
+                'gotAuthorization' => $request->header('Authorization'),
             ]);
         }
     }
 
-    public function test()
+    public function history(Request $request)
     {
-        return response()->json([
-            'success' => 'true'
-        ]);
+        if ($request->hasHeader('Authorization')) {
+            $token = Str::substr($request->header('Authorization'), 7, Str::length($request->header('Authorization')));
+            if (User::where('token', $token)->exists()) {
+                $student = User::where('token', $token)->first();
+                $attendances = Attendance::where('studentid', $student->id)->get();
+                return response()->json([
+                    'success' => true,
+                    'gotAuthorization' => $request->header('Authorization'),
+                    'foundUser' => User::where('token', $token)->first(),
+                    'attendances' => $attendances
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'User not authorized. Please login again',
+                    'gotAuthorization' => $token,
+                ]);
+            }
+        } else {
+            return response()->json([
+                'success' => false,
+                'error' => 'Authorization not found. Please login again',
+                'gotAuthorization' => $request->header('Authorization'),
+            ]);
+        }
     }
 }

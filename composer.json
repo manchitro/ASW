@@ -16,7 +16,6 @@
         "guzzlehttp/guzzle": "^7.3",
         "hashids/hashids": "^4.1",
         "laravel/framework": "^8.12",
-        "laravel/passport": "^10.1",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
         "maatwebsite/excel": "^3.1",
