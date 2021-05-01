@@ -34,6 +34,14 @@ class StudentController extends Controller
         if (User::where('academicid', $academicid)->exists()) {
             $user = User::where('academicid', $academicid)->first();
 
+            //check if user is faculty
+            if($user->usertype == 'faculty'){
+                return response()->json([
+                    'login' => false,
+                    'error' => 'This app is only for students. Please visit our website for faculty login',
+                ]);
+            }
+
             //portal login
             $response = Http::post('https://portal.aiub.edu/login', [
                 'UserName' => $request->academicid,
@@ -118,6 +126,7 @@ class StudentController extends Controller
                 return response()->json([
                     'success' => false,
                     'error' => 'User not authorized. Please login again',
+                    'tokenExpired' => true,
                     'gotAuthorization' => $token,
                 ]);
             }
