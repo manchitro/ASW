@@ -10,6 +10,7 @@ use App\Models\SectionStudent;
 use App\Models\Section;
 use App\Models\SectionTime;
 use App\Models\Attendance;
+use App\Models\Lecture;
 
 use App\Helpers\SectionTimeHelper;
 use App\Helpers\HTMLHelper;
@@ -35,7 +36,7 @@ class StudentController extends Controller
             $user = User::where('academicid', $academicid)->first();
 
             //check if user is faculty
-            if($user->usertype == 'faculty'){
+            if ($user->usertype == 'faculty') {
                 return response()->json([
                     'login' => false,
                     'error' => 'This app is only for students. Please visit our website for faculty login',
@@ -177,6 +178,74 @@ class StudentController extends Controller
                     'gotAuthorization' => $request->header('Authorization'),
                     'foundUser' => User::where('token', $token)->first(),
                     'attendances' => $attendances
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'User not authorized. Please login again',
+                    'gotAuthorization' => $token,
+                ]);
+            }
+        } else {
+            return response()->json([
+                'success' => false,
+                'error' => 'Authorization not found. Please login again',
+                'gotAuthorization' => $request->header('Authorization'),
+            ]);
+        }
+    }
+
+    public function submit(Request $request)
+    {
+        if ($request->hasHeader('Authorization')) {
+            $token = Str::substr($request->header('Authorization'), 7, Str::length($request->header('Authorization')));
+            if (User::where('token', $token)->exists()) {
+                $student = User::where('token', $token)->first();
+                // $attData = json_decode($request->attData);
+                // return response()->json([
+                //     'success' => false,
+                //     'message' => "Attendance was not sent properly",
+                //     'attData' => $request->attData['qrdata']['lid']
+                // ]);
+                if ($request->attData["qrdata"]['lid'] == null || $request->attData['scantime'] == null) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => "Attendance was not sent properly",
+                        'attData' => $request->attData
+                    ]);
+                } else {
+                    $lectureid = $request->attData['qrdata']['lid'];
+                    $scantime = $request->attData['scantime'];
+                    if (Lecture::find($lectureid)->exists()) {
+                        if (Attendance::where('lectureid', $lectureid)->where('studentid', $student->id)->exists()) {
+                            $attendance = Attendance::where('lectureid', $lectureid)->where('studentid', $student->id)->first();
+                            $attendance->scantime = $scantime;
+                            $attendance->entry = 1;
+                            $attendance->save();
+                            return response()->json([
+                                'success' => true,
+                                'attendance' => $attendance
+                            ]);
+                        } else {
+                            return response()->json([
+                                'success' => false,
+                                'message' => "Attendance not found",
+                                'attData' => $request->attData
+                            ]);
+                        }
+                    } else {
+                        return response()->json([
+                            'success' => false,
+                            'error' => "Lecture not found",
+                            'attData' => $request->attData
+                        ]);
+                    }
+                }
+                return response()->json([
+                    'success' => true,
+                    'gotAuthorization' => $request->header('Authorization'),
+                    'foundUser' => User::where('token', $token)->first(),
+                    'attData' => $request->attData
                 ]);
             } else {
                 return response()->json([

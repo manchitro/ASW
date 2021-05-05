@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
     Route::post('/student/login', [App\Http\Controllers\StudentController::class, 'login']);
+    Route::post('/student/submit', [App\Http\Controllers\StudentController::class, 'submit']);
     Route::get('/student/sections', [App\Http\Controllers\StudentController::class, 'sections']);
     Route::get('/student/logout', [App\Http\Controllers\StudentController::class, 'logout'])->middleware('auth:api');
     Route::get('/student/profile', [App\Http\Controllers\StudentController::class, 'profile']);
