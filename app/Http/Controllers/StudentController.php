@@ -172,7 +172,12 @@ class StudentController extends Controller
             $token = Str::substr($request->header('Authorization'), 7, Str::length($request->header('Authorization')));
             if (User::where('token', $token)->exists()) {
                 $student = User::where('token', $token)->first();
-                $attendances = Attendance::where('studentid', $student->id)->get();
+                $attendances = Attendance::where('studentid', $student->id)->whereNotNull('scantime')->get();
+                foreach ($attendances as $attendance) {
+                    $lecture = Lecture::find($attendance->lectureid);
+                    $sectioname = Section::find($lecture->sectionid)->sectionname;
+                    $attendance->sectionname = $sectioname;
+                }
                 return response()->json([
                     'success' => true,
                     'gotAuthorization' => $request->header('Authorization'),
