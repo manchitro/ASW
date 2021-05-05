@@ -9,9 +9,9 @@ use Carbon\Carbon;
 
 use App\Models\User;
 use App\Models\Section;
-use App\Models\Sectiontime;
+use App\Models\SectionTime;
 use App\Models\Lecture;
-use App\Models\Sectionstudent;
+use App\Models\SectionStudent;
 use App\Models\Attendance;
 
 use App\Http\Requests\LectureRequest;
@@ -20,7 +20,7 @@ use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\SheetRequest;
 
-use App\Helpers\SectiontimeHelper;
+use App\Helpers\SectionTimeHelper;
 use App\Helpers\LectureHelper;
 use App\Helpers\SheetHelper;
 use App\Helpers\AttendanceHelper;

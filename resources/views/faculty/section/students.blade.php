@@ -42,7 +42,7 @@
         </div>
     @endif
     @if (count($students) == 0)
-        <div class="mx-3 text-warning h5">There are no students in this section as of now. To add students use the Add student button from the menu below or <a href="add"><u>click here</u></a></div>
+        <div class="mx-3 text-warning h5">There are no students in this section as of now. To add students use the Add student button from the menu below or <a href="students/add"><u>click here</u></a></div>
     @endif
     <div class="table-responsive fullscreen-flex-item overflow-auto">
         <table class="table table-dark table-striped table-hover table-sm">
@@ -52,7 +52,7 @@
                     <th scope="col" style="width: 10%">ID</th>
                     <th scope="col" style="width: 30%">Name</th>
                     @foreach ($lectures as $lecture)
-                        <th scope="col">{{ substr($lecture->date, 0, -6)." [".$lecture->classtype."] ".$lecture->starttime."-".$lecture->endtime}}</th>
+                        <th scope="col">{{ substr($lecture->date, 0, -6) . ' [' . $lecture->classtype . '] ' . $lecture->starttime . '-' . $lecture->endtime }}</th>
                     @endforeach
                 </tr>
             </thead>

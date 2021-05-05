@@ -176,7 +176,7 @@ return [
         ],
         'academicid' => [
             'required' => 'Please enter the Academic ID of the student you\'re trying to add',
-            'regex' => 'Please provide a valid format for the Academic ID. Example: 18-XXXXX-1',
+            'regex' => 'Please provide a valid format for the Academic ID. Example: X-XXXXX-X(student) or XXXX-XXXX-X(faculty)',
         ],
         'firstname' => [
             'required' => 'Please enter the First Name of the student you\'re trying to add',
