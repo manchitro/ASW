@@ -13,7 +13,7 @@ class SectionNameHelper
 
     public static function abbrSectionName($sectionname)
     {
-        if (strlen( $sectionname ) < 40) {
+        if (strlen($sectionname) < 40) {
             return $sectionname;
         }
         if (str_contains($sectionname, '[')) {
@@ -32,7 +32,11 @@ class SectionNameHelper
             $words = explode(' ', $sectionname);
             $abbr = "";
             foreach ($words as $word) {
-                $abbr = $abbr . substr($word, 0, 1);
+                if (!is_numeric($word)) {
+                    $abbr = $abbr . substr($word, 0, 1);
+                } else{
+                    $abbr = $abbr . ' ' . $word . ' ';
+                }
             }
             // $sectionLetter = substr($sectionname, -3);
             return $abbr;
