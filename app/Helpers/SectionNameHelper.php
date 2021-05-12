@@ -13,14 +13,29 @@ class SectionNameHelper
 
     public static function abbrSectionName($sectionname)
     {
-        $bracePos = strpos($sectionname, '[');
-        $courseName = substr($sectionname, 0, $bracePos);
-        $words = explode(' ', $courseName);
-        $abbr = "";
-        foreach ($words as $word) {
-            $abbr = $abbr . substr($word, 0, 1);
+        if (strlen( $sectionname ) < 40) {
+            return $sectionname;
         }
-        $sectionLetter = substr($sectionname, -3);
-        return $abbr.$sectionLetter;
+        if (str_contains($sectionname, '[')) {
+            $bracePos = strpos($sectionname, '[');
+            $courseName = substr($sectionname, 0, $bracePos);
+            $words = explode(' ', $courseName);
+            $abbr = "";
+            foreach ($words as $word) {
+                $abbr = $abbr . substr($word, 0, 1);
+            }
+            $sectionLetter = substr($sectionname, -3);
+            return $abbr . ' ' . $sectionLetter;
+        } else {
+            // $bracePos = strpos($sectionname, '[');
+            // $courseName = substr($sectionname, 0, $bracePos);
+            $words = explode(' ', $sectionname);
+            $abbr = "";
+            foreach ($words as $word) {
+                $abbr = $abbr . substr($word, 0, 1);
+            }
+            // $sectionLetter = substr($sectionname, -3);
+            return $abbr;
+        }
     }
 }
