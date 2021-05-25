@@ -113,7 +113,7 @@
                                 <option value="6" {{ old('endtime1') == 6 ? 'selected' : '' }}>11:00 AM</option>
                                 <option value="7" {{ old('endtime1') == 7 ? 'selected' : '' }}>11:30 AM</option>
                                 <option value="8" {{ old('endtime1') == 8 ? 'selected' : '' }}>12:00 PM</option>
-                                <option value="9" {{ old('endtime1') == 9 ? 'selected' : '' }}>12:00 PM</option>
+                                <option value="9" {{ old('endtime1') == 9 ? 'selected' : '' }}>12:30 PM</option>
                                 <option value="10" {{ old('endtime1') == 10 ? 'selected' : '' }}>1:00 PM</option>
                                 <option value="11" {{ old('endtime1') == 11 ? 'selected' : '' }}>1:30 PM</option>
                                 <option value="12" {{ old('endtime1') == 12 ? 'selected' : '' }}>2:00 PM</option>
@@ -255,7 +255,7 @@
                                     <option value="6" {{ old('endtime2') == 6 ? 'selected' : '' }}>11:00 AM</option>
                                     <option value="7" {{ old('endtime2') == 7 ? 'selected' : '' }}>11:30 AM</option>
                                     <option value="8" {{ old('endtime2') == 8 ? 'selected' : '' }}>12:00 PM</option>
-                                    <option value="9" {{ old('endtime2') == 9 ? 'selected' : '' }}>12:00 PM</option>
+                                    <option value="9" {{ old('endtime2') == 9 ? 'selected' : '' }}>12:30 PM</option>
                                     <option value="10" {{ old('endtime2') == 10 ? 'selected' : '' }}>1:00 PM</option>
                                     <option value="11" {{ old('endtime2') == 11 ? 'selected' : '' }}>1:30 PM</option>
                                     <option value="12" {{ old('endtime2') == 12 ? 'selected' : '' }}>2:00 PM</option>
