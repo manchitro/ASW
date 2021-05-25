@@ -124,7 +124,7 @@
                                 <option value="6" {{ $sectiontimes[0]->endtime == 6 ? 'selected' : '' }}>11:00 AM</option>
                                 <option value="7" {{ $sectiontimes[0]->endtime == 7 ? 'selected' : '' }}>11:30 AM</option>
                                 <option value="8" {{ $sectiontimes[0]->endtime == 8 ? 'selected' : '' }}>12:00 PM</option>
-                                <option value="9" {{ $sectiontimes[0]->endtime == 9 ? 'selected' : '' }}>12:00 PM</option>
+                                <option value="9" {{ $sectiontimes[0]->endtime == 9 ? 'selected' : '' }}>12:30 PM</option>
                                 <option value="10" {{ $sectiontimes[0]->endtime == 10 ? 'selected' : '' }}>1:00 PM</option>
                                 <option value="11" {{ $sectiontimes[0]->endtime == 11 ? 'selected' : '' }}>1:30 PM</option>
                                 <option value="12" {{ $sectiontimes[0]->endtime == 12 ? 'selected' : '' }}>2:00 PM</option>
@@ -266,7 +266,7 @@
                                     <option value="6" {{ isset($sectiontimes[1]) && $sectiontimes[1]->endtime == 6 ? 'selected' : '' }}>11:00 AM</option>
                                     <option value="7" {{ isset($sectiontimes[1]) && $sectiontimes[1]->endtime == 7 ? 'selected' : '' }}>11:30 AM</option>
                                     <option value="8" {{ isset($sectiontimes[1]) && $sectiontimes[1]->endtime == 8 ? 'selected' : '' }}>12:00 PM</option>
-                                    <option value="9" {{ isset($sectiontimes[1]) && $sectiontimes[1]->endtime == 9 ? 'selected' : '' }}>12:00 PM</option>
+                                    <option value="9" {{ isset($sectiontimes[1]) && $sectiontimes[1]->endtime == 9 ? 'selected' : '' }}>12:30 PM</option>
                                     <option value="10" {{ isset($sectiontimes[1]) && $sectiontimes[1]->endtime == 10 ? 'selected' : '' }}>1:00 PM</option>
                                     <option value="11" {{ isset($sectiontimes[1]) && $sectiontimes[1]->endtime == 11 ? 'selected' : '' }}>1:30 PM</option>
                                     <option value="12" {{ isset($sectiontimes[1]) && $sectiontimes[1]->endtime == 12 ? 'selected' : '' }}>2:00 PM</option>
